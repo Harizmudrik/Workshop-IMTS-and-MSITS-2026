@@ -428,28 +428,31 @@ export default function BimpEagaLandingPage() {
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-orange-500/20 selection:text-orange-700 overflow-x-clip text-sm">
 
       {/* ──────────────────────────────────────────────────────────
-          NAVBAR (Fixed Translucent Header & Frosted Glass Effect)
+          NAVBAR (High-Contrast, Senior-Friendly & Fully Responsive)
           ────────────────────────────────────────────────────────── */}
       <header
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/70 backdrop-blur-md shadow-sm shadow-slate-900/5 border-b border-slate-200/60"
-            : "bg-white/80 backdrop-blur-md border-b border-slate-200/40"
+            ? "bg-white/95 backdrop-blur-md shadow-md shadow-slate-900/10 border-b border-slate-200"
+            : "bg-white/95 backdrop-blur-md border-b border-slate-200"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Logo Kiri (UNSD) */}
-          <a href="#overview" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          {/* Logo Kiri (UNSD) - Ukuran lebih tegas dan proporsional */}
+          <a
+            href="#overview"
+            className="flex items-center gap-2 hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-1"
+          >
             <img
               src="/assets/logo.jpeg"
               onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
               alt="United Nations Statistics Division (UNSD) Logo"
-              className="h-8 sm:h-9 w-auto object-contain max-w-[240px] sm:max-w-[280px]"
+              className="h-10 sm:h-12 w-auto object-contain max-w-[220px] sm:max-w-[280px] lg:max-w-[320px]"
             />
           </a>
 
-          {/* Navigasi Desktop Rapi */}
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* Navigasi Desktop & Laptop: Font Tebal (Bold), Jelas, & Kontras Tinggi */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {[
               { label: "Overview", id: "overview" },
               { label: "Delegates", id: "delegates" },
@@ -463,53 +466,73 @@ export default function BimpEagaLandingPage() {
               <a
                 key={id}
                 href={`#${id}`}
-                className="px-3 py-1.5 text-xs font-semibold text-slate-700 rounded-full hover:bg-orange-500/10 hover:text-orange-600 transition-all duration-200"
+                className="px-2.5 xl:px-3.5 py-2 text-[13px] xl:text-[15px] font-extrabold text-slate-800 hover:text-orange-600 hover:bg-orange-50/80 active:bg-orange-100 rounded-xl transition-all duration-150 tracking-tight"
               >
                 {label}
               </a>
             ))}
           </nav>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile & Tablet Button: Lebih Besar, Ada Tulisan "Menu" untuk Kemudahan Orang Tua */}
           <div className="flex items-center lg:hidden">
             <button
               onClick={() => setMobileNav(!mobileNav)}
-              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100/80 transition-colors"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-300 text-slate-900 font-bold text-sm hover:bg-orange-50 hover:text-orange-600 hover:border-orange-300 transition-all shadow-sm active:scale-95"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileNav ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileNav ? (
+                <>
+                  <X className="w-5 h-5 text-orange-600 stroke-[2.5]" />
+                  <span className="font-extrabold text-orange-600 text-xs sm:text-sm">Tutup</span>
+                </>
+              ) : (
+                <>
+                  <Menu className="w-5 h-5 text-orange-600 stroke-[2.5]" />
+                  <span className="font-extrabold text-slate-900 text-xs sm:text-sm">Menu</span>
+                </>
+              )}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown */}
+        {/* Mobile Dropdown: Font Besar, Jelas & Mudah Ditekan untuk Layar HP/Tablet */}
         {mobileNav && (
-          <div className="lg:hidden border-t border-slate-200/60 bg-white/90 backdrop-blur-xl py-3 px-4 space-y-1 shadow-xl">
-            {[
-              { label: "Overview", id: "overview" },
-              { label: "Delegates", id: "delegates" },
-              { label: "Dress Code", id: "dresscode" },
-              { label: "Resources", id: "resources" },
-              { label: "Hotel Recommendations", id: "hotels" },
-              { label: "Explore Jakarta", id: "explorejakarta" },
-              { label: "Culinary", id: "culinary" },
-              { label: "Venue", id: "venue" },
-            ].map(({ label, id }) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                onClick={() => setMobileNav(false)}
-                className="block px-3.5 py-2 text-xs font-semibold text-slate-700 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors"
-              >
-                {label}
-              </a>
-            ))}
+          <div className="lg:hidden border-t border-slate-200 bg-white shadow-2xl px-4 py-3 max-h-[calc(100vh-80px)] overflow-y-auto animate-in slide-in-from-top-2 duration-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+              {[
+                { label: "Overview", sub: "Ringkasan Acara", id: "overview" },
+                { label: "Delegates", sub: "Negara Peserta", id: "delegates" },
+                { label: "Dress Code", sub: "Panduan Busana", id: "dresscode" },
+                { label: "Resources", sub: "Materi & Dokumen", id: "resources" },
+                { label: "Hotels", sub: "Rekomendasi Penginapan", id: "hotels" },
+                { label: "Explore Jakarta", sub: "Destinasi Wisata", id: "explorejakarta" },
+                { label: "Culinary", sub: "Kuliner Khas", id: "culinary" },
+                { label: "Venue & Guide", sub: "Lokasi Menara Thamrin", id: "venue" },
+              ].map(({ label, sub, id }) => (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  onClick={() => setMobileNav(false)}
+                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-orange-500/10 border border-slate-200/80 hover:border-orange-300 transition-all"
+                >
+                  <div>
+                    <span className="block text-sm sm:text-base font-extrabold text-[#0B1E43]">
+                      {label}
+                    </span>
+                    <span className="text-[11px] text-slate-500 font-medium">
+                      {sub}
+                    </span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-orange-500" />
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </header>
 
       {/* Spacer to prevent layout shift beneath fixed header */}
-      <div className="h-16" />
+      <div className="h-20" />
 
       {/* ──────────────────────────────────────────────────────────
           HERO
