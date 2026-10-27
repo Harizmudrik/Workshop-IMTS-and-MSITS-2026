@@ -633,23 +633,12 @@ export default function BimpEagaLandingPage() {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/20 via-transparent to-blue-500/15 blur-xl scale-105 pointer-events-none" />
 
                 <div className="relative bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl p-4 sm:p-5 shadow-xl text-center">
-                  <div className="flex items-end justify-center gap-2 mb-3">
-                    <div className="flex-1">
-                      <img
-                        src="/assets/salamLaki.avif"
-                        alt="Host Pria BPS"
-                        className="w-full max-h-52 sm:max-h-56 object-contain drop-shadow-xl hover:scale-[1.02] transition-transform duration-200"
-                        style={{ mixBlendMode: "luminosity" }}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <img
-                        src="/assets/salamWadon.avif"
-                        alt="Host Wanita BPS"
-                        className="w-full max-h-52 sm:max-h-56 object-contain drop-shadow-xl hover:scale-[1.02] transition-transform duration-200"
-                        style={{ mixBlendMode: "luminosity" }}
-                      />
-                    </div>
+                  <div className="flex items-end justify-center mb-3">
+                    <img
+                      src="/assets/salamBPS.png"
+                      alt="Official Host & Committee - BPS Statistics Indonesia"
+                      className="w-full max-h-56 sm:max-h-64 object-contain drop-shadow-2xl hover:scale-[1.02] transition-transform duration-300"
+                    />
                   </div>
 
                   <div className="border-t border-white/10 pt-3">
