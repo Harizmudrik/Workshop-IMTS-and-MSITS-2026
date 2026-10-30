@@ -12,6 +12,7 @@ import {
   ExternalLink,
   Sparkles,
   ChevronRight,
+  ChevronDown,
   Download,
   X,
   FileText,
@@ -31,6 +32,12 @@ import {
   Hotel,
   Compass,
   Info,
+  Phone,
+  Mail,
+  ShieldCheck,
+  Plane,
+  Wifi,
+  UserCheck,
 } from "lucide-react";
 
 /* ================================================================
@@ -39,6 +46,7 @@ import {
 
 const UNDP_MAP_URL = "https://maps.app.goo.gl/2bnKY1URW6v53eJJA";
 const BPS_MAP_URL = "https://maps.app.goo.gl/6JR4BWwpmrwfWMvz9";
+const REGISTRATION_URL = "http://s.bps.go.id/registform";
 
 const delegates = [
   { name: "Indonesia", src: "/assets/benderaIndo.avif", isHost: true },
@@ -56,28 +64,25 @@ const delegates = [
 
 const landmarks = [
   {
-    title: "Monumen Nasional",
-    en: "Historic Jakarta icon & national symbol",
-    id: "Ikon bersejarah Jakarta & simbol nasional",
-    distance: "2.3 km (~10 mnt)",
+    title: "National Monument (Monas)",
+    desc: "Historic Jakarta icon & towering national symbol commemorating independence.",
+    distance: "2.3 km (~10 min)",
     tag: "National Monument",
     img: "/assets/monas.avif",
     mapUrl: "https://www.google.com/maps/search/Monumen+Nasional+Jakarta",
   },
   {
     title: "Istiqlal Mosque",
-    en: "The largest mosque in Southeast Asia",
-    id: "Masjid terbesar di Asia Tenggara",
-    distance: "950 m (~7 mnt)",
+    desc: "The grandest mosque in Southeast Asia, showcasing modern Islamic architecture.",
+    distance: "950 m (~7 min)",
     tag: "Religious & Cultural",
     img: "/assets/masjid.avif",
     mapUrl: "https://maps.app.goo.gl/vpEKerVSUuQd416x5",
   },
   {
-    title: "Kota Tua",
-    en: "Dutch colonial-era old town district",
-    id: "Kawasan kota tua era kolonial Belanda",
-    distance: "8.9 km (~35 mnt)",
+    title: "Kota Tua (Old Batavia)",
+    desc: "Historic Dutch colonial-era old town square and historic architecture district.",
+    distance: "8.9 km (~35 min)",
     tag: "Colonial Heritage",
     img: "/assets/kotatua.avif",
     mapUrl:
@@ -85,27 +90,24 @@ const landmarks = [
   },
   {
     title: "Jakarta Cathedral",
-    en: "Iconic neo-gothic catholic cathedral",
-    id: "Katedral katolik bergaya neo-gotik",
-    distance: "750 m (~5 mnt)",
-    tag: "Free Entry",
+    desc: "Striking neo-gothic Catholic cathedral standing directly opposite Istiqlal Mosque.",
+    distance: "750 m (~5 min)",
+    tag: "Historic Architecture",
     img: "/assets/katedral.avif",
     mapUrl: "https://maps.app.goo.gl/pEZuFN9YqkScvTVG8",
   },
   {
     title: "Grand Indonesia",
-    en: "Premium shopping & lifestyle mall",
-    id: "Pusat belanja & gaya hidup premium",
-    distance: "6.0 km (~25 mnt)",
+    desc: "Premier international shopping, culinary, and lifestyle complex near Bundaran HI.",
+    distance: "6.0 km (~20 min)",
     tag: "Shopping & Dining",
     img: "/assets/GrandIndonesia.avif",
     mapUrl: "https://maps.app.goo.gl/vVLgdwHDWFzmkqkB8",
   },
   {
-    title: "Pecenongan",
-    en: "Famous night street food paradise",
-    id: "Surga kuliner malam yang terkenal",
-    distance: "3.3 km (~15 mnt)",
+    title: "Pecenongan Culinary Street",
+    desc: "Famous culinary street celebrated for legendary night food stalls and local dining.",
+    distance: "3.3 km (~15 min)",
     tag: "Culinary Street",
     img: "/assets/pecenongan.avif",
     mapUrl: "https://maps.app.goo.gl/Mqg4ZAikx4H3f7oM6",
@@ -113,246 +115,183 @@ const landmarks = [
 ];
 
 const culinaryItems = [
-  { name: "Nasi Goreng", en: "Indonesian fried rice", id: "Nasi goreng khas Indonesia", img: "/assets/nasigoreng.avif" },
-  { name: "Soto Betawi", en: "Jakarta beef soup", id: "Sup daging khas Betawi", img: "/assets/sotobetawi.avif" },
-  { name: "Sate Ayam", en: "Grilled chicken skewers", id: "Sate ayam bumbu kacang", img: "/assets/sateayam.avif" },
-  { name: "Bakso", en: "Savory meatball soup", id: "Sup bakso daging sapi", img: "/assets/bakso.avif" },
-  { name: "Kerak Telor", en: "Traditional Betawi omelette", id: "Omelet tradisional Betawi", img: "/assets/keraktelor.avif" },
-  { name: "Martabak Manis", en: "Sweet stuffed pancake", id: "Martabak manis isi cokelat", img: "/assets/martabak.avif" },
+  { name: "Nasi Goreng", desc: "Signature Indonesian fragrant fried rice with savory aromatics", img: "/assets/nasigoreng.avif" },
+  { name: "Soto Betawi", desc: "Creamy traditional Jakarta aromatic spiced beef soup", img: "/assets/sotobetawi.avif" },
+  { name: "Sate Ayam", desc: "Succulent charcoal-grilled chicken skewers with rich peanut sauce", img: "/assets/sateayam.avif" },
+  { name: "Bakso", desc: "Hearty Indonesian savory meatball noodle soup", img: "/assets/bakso.avif" },
+  { name: "Kerak Telor", desc: "Heritage Betawi toasted glutinous rice and egg omelette with coconut serundeng", img: "/assets/keraktelor.avif" },
+  { name: "Martabak", desc: "Delectable thick sweet stuffed pancake with chocolate and cheese", img: "/assets/martabak.avif" },
 ];
 
 const venueGallery = [
   {
     id: "facade",
     title: "Menara Thamrin Building",
-    caption: "Jl. M.H. Thamrin Kav 3, Jakarta Pusat",
+    caption: "Jl. M.H. Thamrin Kav 3, Central Jakarta",
     src: "/assets/gedungTamrin.jpg",
     badge: "Building Facade",
   },
   {
     id: "workshop-1",
-    title: "Workshop & Plenary Hall (Lantai 9)",
+    title: "Workshop & Plenary Hall (9th Floor)",
     caption: "UNDP Technical Workshop & Session Hall",
     src: "/assets/workshopRoom.jpeg",
-    badge: "Floor 9 Venue",
+    badge: "Plenary Hall",
   },
   {
     id: "workshop-2",
-    title: "Technical Session & Working Area (Lantai 9)",
+    title: "Technical Session & Working Area (9th Floor)",
     caption: "Interactive deliberation hall for international delegates",
     src: "/assets/workshopRoom2.jpeg",
-    badge: "Workshop Room",
+    badge: "Working Area",
   },
   {
     id: "interior",
-    title: "Executive Meeting & Discussion Suite (Lantai 9)",
+    title: "Executive Meeting & Discussion Suite (9th Floor)",
     caption: "High-level bilateral & collaborative discussion suite",
     src: "/assets/venueInterior.jpeg",
     badge: "Meeting Suite",
-  },
-  {
-    id: "smoking",
-    title: "Outdoor Smoking Area (Area Merokok)",
-    caption: "Designated open-air smoking area behind the building",
-    src: "/assets/SmokingArea.jpeg",
-    badge: "Outdoor Belakang",
   },
   {
     id: "mushola",
     title: "Prayer Room (Mushola Menara Thamrin)",
     caption: "Spacious prayer facilities located in the basement",
     src: "/assets/mushala.jpeg",
-    badge: "Basement",
-  },
-  {
-    id: "money-changer",
-    title: "Authorized Money Changer (Penukaran Valas)",
-    caption: "Currency exchange services located on the LG floor",
-    src: "/assets/MoneyCanger.jpeg",
-    badge: "Lantai LG",
+    badge: "Basement (B)",
   },
   {
     id: "kantin",
-    title: "Canteen & Cafeteria (Kantin Gedung)",
-    caption: "Diverse local meals and refreshments on the LG floor",
+    title: "Canteen & Services Hub (LG Floor)",
+    caption: "Cafeteria food court, convenience store & money changer on LG floor",
     src: "/assets/Kantin.jpeg",
-    badge: "Lantai LG",
-  },
-  {
-    id: "indomaret",
-    title: "Indomaret Convenience Store (Minimarket)",
-    caption: "Daily essentials, snacks, and beverages on the LG floor",
-    src: "/assets/Indomaret.jpeg",
-    badge: "Lantai LG",
-  },
-  {
-    id: "district",
-    title: "M.H. Thamrin Business District",
-    caption: "Central protocol avenue & prime business hub",
-    src: "/assets/menaraThamrinHD.jpg",
-    badge: "Strategic Area",
-  },
-];
-
-const venueAmenities = [
-  {
-    id: "mushola",
-    nameEn: "Prayer Room (Mushola)",
-    nameId: "Mushola / Tempat Ibadah",
-    locationEn: "Basement Level (B)",
-    locationId: "Lantai Basement",
-    floorBadge: "Basement",
-    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30",
-    descEn: "Mushola is located in the basement.",
-    descId: "Mushola ada di lantai basement.",
-    detailEn: "Spacious and quiet prayer facilities for Muslim delegates and staff with dedicated ablution areas.",
-    detailId: "Fasilitas tempat ibadah yang tenang dan bersih dengan tempat wudhu khusus di lantai basement.",
-    img: "/assets/mushala.jpeg",
-    galleryIndex: 5,
+    badge: "Floor LG",
   },
   {
     id: "smoking",
-    nameEn: "Outdoor Smoking Area",
-    nameId: "Area Khusus Merokok",
-    locationEn: "Outdoor Behind Building",
-    locationId: "Outdoor Belakang Gedung",
-    floorBadge: "Outdoor Belakang",
-    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/30",
-    descEn: "Smoking area is located outdoor behind the building.",
-    descId: "Smoking area outdoor di belakang gedung.",
-    detailEn: "Designated open-air green area equipped with benches and ashtrays situated behind the building.",
-    detailId: "Area khusus merokok luar ruangan dengan bangku santai dan asbak di bagian belakang gedung.",
-    img: "/assets/SmokingArea.jpeg",
-    galleryIndex: 4,
+    title: "Outdoor Smoking Area",
+    caption: "Designated open-air smoking area behind the building",
+    src: "/assets/SmokingArea.jpeg",
+    badge: "Ground Outdoor",
   },
   {
     id: "money-changer",
-    nameEn: "Money Changer (Currency Exchange)",
-    nameId: "Penukaran Valuta Asing (Money Changer)",
-    locationEn: "LG Floor (Lower Ground)",
-    locationId: "Lantai LG",
-    floorBadge: "Lantai LG",
-    badgeColor: "bg-sky-500/20 text-sky-300 border-sky-400/30",
-    descEn: "Money Changer is located on the LG floor.",
-    descId: "Money Changer ada di lantai LG.",
-    detailEn: "Official foreign currency exchange counter for international delegates and foreign currency transactions.",
-    detailId: "Layanan penukaran valuta asing (valas) resmi untuk kebutuhan transaksi para delegasi mancanegara.",
-    img: "/assets/MoneyCanger.jpeg",
-    galleryIndex: 6,
-  },
-  {
-    id: "kantin",
-    nameEn: "Canteen & Cafeteria (Food Court)",
-    nameId: "Kantin & Pujasera Gedung",
-    locationEn: "LG Floor (Lower Ground)",
-    locationId: "Lantai LG",
-    floorBadge: "Lantai LG",
-    badgeColor: "bg-orange-500/20 text-orange-300 border-orange-400/30",
-    descEn: "Canteen is located on the LG floor.",
-    descId: "Kantin ada di lantai LG.",
-    detailEn: "Building food court offering diverse Indonesian dishes, fresh juices, coffee, and affordable lunch sets.",
-    detailId: "Pujasera gedung dengan aneka sajian masakan khas Indonesia, kopi, dan minuman segar di lantai LG.",
-    img: "/assets/Kantin.jpeg",
-    galleryIndex: 7,
-  },
-  {
-    id: "indomaret",
-    nameEn: "Indomaret Convenience Store",
-    nameId: "Minimarket Indomaret",
-    locationEn: "LG Floor (Lower Ground)",
-    locationId: "Lantai LG",
-    floorBadge: "Lantai LG",
-    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/30",
-    descEn: "Indomaret is located on the LG floor.",
-    descId: "Indomaret ada di lantai LG.",
-    detailEn: "Convenience store providing bottled water, quick bites, snacks, toiletries, and daily essentials.",
-    detailId: "Minimarket menyediakan air mineral, makanan ringan, perlengkapan pribadi, dan kebutuhan harian.",
-    img: "/assets/Indomaret.jpeg",
-    galleryIndex: 8,
+    title: "Authorized Money Changer (Floor LG)",
+    caption: "Foreign currency exchange service on Lower Ground",
+    src: "/assets/MoneyCanger.jpeg",
+    badge: "Floor LG",
   },
 ];
 
+const floorDirectory = [
+  {
+    floor: "9th Fl.",
+    badge: "Primary Venue",
+    badgeColor: "bg-orange-500 text-white",
+    title: "Workshop & Plenary Hall (UNDP)",
+    desc: "Main technical session hall, bilateral suites, and plenary deliberation area.",
+    galleryIndex: 1,
+  },
+  {
+    floor: "LG Fl.",
+    badge: "Services Hub",
+    badgeColor: "bg-sky-500/25 text-sky-300 border border-sky-400/30",
+    title: "Canteen, Minimarket & Currency Exchange",
+    desc: "Building cafeteria food court, Indomaret convenience store, and authorized foreign exchange counter.",
+    galleryIndex: 5,
+  },
+  {
+    floor: "B Fl.",
+    badge: "Prayer Room",
+    badgeColor: "bg-emerald-500/25 text-emerald-300 border border-emerald-400/30",
+    title: "Mushola (Prayer Facilities)",
+    desc: "Spacious, quiet prayer facilities with dedicated male and female ablution (wudhu) areas.",
+    galleryIndex: 4,
+  },
+  {
+    floor: "Ground",
+    badge: "Lobby & Outdoor",
+    badgeColor: "bg-amber-500/25 text-amber-300 border border-amber-400/30",
+    title: "Security Reception & Outdoor Smoking Garden",
+    desc: "Delegate badge check-in at the ground security lobby, plus open-air smoking area behind the building.",
+    galleryIndex: 6,
+  },
+];
+
+/* Official Suggested Hotels from Information Note */
 const hotels = [
   {
     id: "sari-pacific",
     name: "Sari Pacific Jakarta, Autograph Collection",
-    address: "Jl. M.H. Thamrin No. 6, Jakarta Pusat 10340, Indonesia",
-    tag: "PREMIUM",
+    address: "Jl. M.H. Thamrin No. 6, Kb. Sirih, Menteng, Jakarta Pusat 10340",
+    tag: "5-STAR HOTEL",
     tagStyle: "bg-amber-500 text-white",
     priceRange: "Rp1.800.000 – Rp2.200.000",
-    priceNoteEn: "per room / night (planning budget)",
-    priceNoteId: "per kamar / malam (anggaran perencanaan)",
-    distance: "0,3 – 0,7 km",
-    walkTime: "4 – 10 min",
-    carTime: "3 – 8 min",
+    priceNoteEn: "per room / night (indicative planning budget)",
+    distance: "Approx. 700 m",
+    walkTime: "10 min walk",
+    carTime: "5 min drive",
+    contactPerson: "Mr. Tommy Wijaya",
+    contactEmail: "tommywijaya@saripacificjakarta.com",
     website: "https://www.marriott.com/en-us/hotels/jktak-sari-pacific-jakarta-autograph-collection/overview/",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=Sari+Pacific+Jakarta+Autograph+Collection+Jl+MH+Thamrin+No+6",
+    mapUrl: "https://maps.app.goo.gl/uzvDiL1x4ktBwBS26",
     directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=Menara%20Thamrin%2C%20Jakarta%20Pusat%2C%20Indonesia&destination=Jl.%20M.H.%20Thamrin%20No.%206%2C%20Jakarta%20Pusat%2010340%2C%20Indonesia&travelmode=walking",
     img: "/assets/hotelSariPacific.jpg",
     filename: "Directions-Sari-Pacific-Jakarta.png",
   },
   {
-    id: "holiday-inn-express",
-    name: "Holiday Inn Express Jakarta Wahid Hasyim by IHG",
-    address: "Jl. K.H. Wahid Hasyim No. 123, Jakarta Pusat 10240, Indonesia",
-    tag: "BUSINESS HOTEL",
+    id: "four-points",
+    name: "Four Points by Sheraton Jakarta, Thamrin",
+    address: "Jl. M.H. Thamrin, Gondangdia, Menteng, Jakarta Pusat 10350",
+    tag: "4-STAR HOTEL",
     tagStyle: "bg-blue-600 text-white",
-    priceRange: "Rp930.000 – Rp1.300.000",
-    priceNoteEn: "per room / night (planning budget)",
-    priceNoteId: "per kamar / malam (anggaran perencanaan)",
-    distance: "1 – 1,3 km",
-    walkTime: "13 – 18 min",
-    carTime: "5 – 12 min",
-    website: "https://www.ihg.com/holidayinnexpress/hotels/id/in/jakarta/jktwh/hoteldetail",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=Holiday+Inn+Express+Jakarta+Wahid+Hasyim+Jl+KH+Wahid+Hasyim+No+123",
-    directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=Menara%20Thamrin%2C%20Jakarta%20Pusat%2C%20Indonesia&destination=Jl.%20K.H.%20Wahid%20Hasyim%20No.%20123%2C%20Jakarta%20Pusat%2010240%2C%20Indonesia&travelmode=walking",
-    img: "/assets/hotelHolidayInn.jpg",
-    filename: "Directions-Holiday-Inn-Express.png",
-  },
-  {
-    id: "swiss-belinn",
-    name: "Swiss-Belinn Wahid Hasyim",
-    address: "Jl. K.H. Wahid Hasyim No. 135–137, Jakarta Pusat 10240, Indonesia",
-    tag: "BUDGET FRIENDLY",
-    tagStyle: "bg-emerald-600 text-white",
-    priceRange: "Rp550.000 – Rp900.000",
-    priceNoteEn: "per room / night (planning budget)",
-    priceNoteId: "per kamar / malam (anggaran perencanaan)",
-    distance: "1,2 – 1,5 km",
-    walkTime: "15 – 22 min",
-    carTime: "6 – 13 min",
-    website: "https://www.swiss-belhotel.com/faqs/swiss-belinn-wahid-hasyim",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=Swiss-Belinn+Wahid+Hasyim+Jl+KH+Wahid+Hasyim+No+135-137",
-    directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=Menara%20Thamrin%2C%20Jakarta%20Pusat%2C%20Indonesia&destination=Jl.%20K.H.%20Wahid%20Hasyim%20No.%20135-137%2C%20Jakarta%20Pusat%2010240%2C%20Indonesia&travelmode=walking",
-    img: "/assets/hotelSwissBelinn.jpg",
-    filename: "Directions-Swiss-Belinn-Wahid-Hasyim.png",
+    priceRange: "Rp1.400.000 – Rp1.800.000",
+    priceNoteEn: "per room / night (indicative planning budget)",
+    distance: "Approx. 450 m",
+    walkTime: "6 min walk",
+    carTime: "3 min drive",
+    contactPerson: "Mr. Edwin Candra Saputra",
+    contactEmail: "Edwin.Saputra@fourpoints.com",
+    website: "https://www.marriott.com/en-us/hotels/jktft-four-points-jakarta-thamrin/overview/",
+    mapUrl: "https://maps.app.goo.gl/ZA7gq9p3V5814qVB9",
+    directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=Menara%20Thamrin%2C%20Jakarta%20Pusat%2C%20Indonesia&destination=Four%20Points%20by%20Sheraton%20Jakarta%20Thamrin&travelmode=walking",
+    img: "/assets/hotelFourPoints.jpg",
+    filename: "Directions-Four-Points-by-Sheraton.png",
   },
   {
     id: "kosenda-hotel",
     name: "Kosenda Hotel",
-    address: "Jl. K.H. Wahid Hasyim No. 127, Jakarta Pusat 10240, Indonesia",
-    tag: "BOUTIQUE HOTEL",
+    address: "Jl. K.H. Wahid Hasyim No. 127, Kb. Kacang, Tanah Abang, Jakarta Pusat 10240",
+    tag: "4-STAR BOUTIQUE",
     tagStyle: "bg-purple-600 text-white",
     priceRange: "Rp775.000 – Rp950.000",
-    priceNoteEn: "per room / night (planning budget)",
-    priceNoteId: "per kamar / malam (anggaran perencanaan)",
-    distance: "1 – 1,3 km",
-    walkTime: "13 – 18 min",
-    carTime: "5 – 12 min",
+    priceNoteEn: "per room / night (indicative planning budget)",
+    distance: "Approx. 400 m",
+    walkTime: "5 min walk",
+    carTime: "3 min drive",
     website: "https://kosendahotel.com/",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=Kosenda+Hotel+Jl+KH+Wahid+Hasyim+No+127",
-    directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=Menara%20Thamrin%2C%20Jakarta%20Pusat%2C%20Indonesia&destination=Jl.%20K.H.%20Wahid%20Hasyim%20No.%20127%2C%20Jakarta%20Pusat%2010240%2C%20Indonesia&travelmode=walking",
+    mapUrl: "https://maps.app.goo.gl/3j1YVwEd7qec4W9c8",
+    directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=Menara%20Thamrin%2C%20Jakarta%20Pusat%2C%20Indonesia&destination=Kosenda%20Hotel%2C%20Jl.%20K.H.%20Wahid%20Hasyim%20No.127&travelmode=walking",
     img: "/assets/hotelKosenda.jpg",
     filename: "Directions-Kosenda-Hotel.png",
   },
+  {
+    id: "holiday-inn-express",
+    name: "Holiday Inn Express Jakarta Wahid Hasyim by IHG",
+    address: "Jl. K.H. Wahid Hasyim No. 123, Kb. Kacang, Tanah Abang, Jakarta Pusat 10240",
+    tag: "3-STAR HOTEL",
+    tagStyle: "bg-emerald-600 text-white",
+    priceRange: "Rp930.000 – Rp1.300.000",
+    priceNoteEn: "per room / night (indicative planning budget)",
+    distance: "Approx. 350 m",
+    walkTime: "5 min walk",
+    carTime: "3 min drive",
+    website: "https://www.ihg.com/holidayinnexpress/hotels/id/in/jakarta/jktwh/hoteldetail",
+    mapUrl: "https://maps.app.goo.gl/QGdcbmwVWXK1Eaed6",
+    directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=Menara%20Thamrin%2C%20Jakarta%20Pusat%2C%20Indonesia&destination=Jl.%20K.H.%20Wahid%20Hasyim%20No.%20123%2C%20Jakarta%20Pusat%2010240%2C%20Indonesia&travelmode=walking",
+    img: "/assets/hotelHolidayInn.jpg",
+    filename: "Directions-Holiday-Inn-Express.png",
+  },
 ];
-
-/* ================================================================
-   HELPER — QR Code URL builder
-   ================================================================ */
-function qrUrl(targetUrl) {
-  return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(targetUrl)}&margin=1`;
-}
 
 /* ================================================================
    MAIN COMPONENT
@@ -361,8 +300,8 @@ function qrUrl(targetUrl) {
 export default function BimpEagaLandingPage() {
   const [activeModal, setActiveModal] = useState(null);
   const [mobileNav, setMobileNav] = useState(false);
+  const [guideDropdown, setGuideDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [activeVenueImg, setActiveVenueImg] = useState(0);
 
   // QR modal state: { title, subtitle, url }
@@ -414,12 +353,6 @@ export default function BimpEagaLandingPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleCopyLink = (url) => {
-    navigator.clipboard?.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const openQr = (title, subtitle, url) => {
     setQrModal({ title, subtitle, url });
   };
@@ -428,7 +361,7 @@ export default function BimpEagaLandingPage() {
     <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-orange-500/20 selection:text-orange-700 overflow-x-clip text-sm">
 
       {/* ──────────────────────────────────────────────────────────
-          NAVBAR (High-Contrast, Senior-Friendly & Fully Responsive)
+          NAVBAR (Airy, Executive, Senior-Friendly & Fully Responsive)
           ────────────────────────────────────────────────────────── */}
       <header
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
@@ -437,105 +370,295 @@ export default function BimpEagaLandingPage() {
             : "bg-white/95 backdrop-blur-md border-b border-slate-200"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          {/* Logo Kiri (UNSD) - Ukuran lebih tegas dan proporsional */}
-          <a
-            href="#overview"
-            className="flex items-center gap-2 hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-1"
-          >
-            <img
-              src="/assets/logo.jpeg"
-              onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
-              alt="United Nations Statistics Division (UNSD) Logo"
-              className="h-10 sm:h-12 w-auto object-contain max-w-[220px] sm:max-w-[280px] lg:max-w-[320px]"
-            />
-          </a>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+          {/* Official Partnership Logos: UNSD & BPS-Statistics Indonesia */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            {/* UNSD Logo */}
+            <a
+              href="#overview"
+              className="flex items-center hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-0.5"
+              title="United Nations Statistics Division (UNSD)"
+            >
+              <img
+                src="/assets/logo.jpeg"
+                onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
+                alt="United Nations Statistics Division (UNSD) Logo"
+                className="h-6 sm:h-7.5 w-auto object-contain max-w-[110px] sm:max-w-[145px]"
+              />
+            </a>
 
-          {/* Navigasi Desktop & Laptop: Font Tebal (Bold), Jelas, & Kontras Tinggi */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+            {/* Subtle Divider */}
+            <div className="h-5 sm:h-6 w-px bg-slate-200" aria-hidden="true" />
+
+            {/* BPS-Statistics Indonesia Logo & Label */}
+            <a
+              href="https://www.bps.go.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 sm:gap-2 hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-sky-500 rounded-lg p-0.5"
+              title="BPS-Statistics Indonesia (Official Host)"
+            >
+              <img
+                src="/assets/LogoBPS.svg"
+                alt="BPS-Statistics Indonesia Logo"
+                className="h-6 sm:h-7.5 w-auto object-contain drop-shadow-sm"
+              />
+              <div className="flex flex-col text-left leading-none">
+                <span className="text-[10px] sm:text-[11.5px] font-black text-[#0B1E43] tracking-tight uppercase whitespace-nowrap">
+                  <span className="inline sm:hidden">BPS RI</span>
+                  <span className="hidden sm:inline">BPS-Statistics Indonesia</span>
+                </span>
+                <span className="text-[7.5px] sm:text-[8px] font-bold text-orange-600 tracking-wider uppercase mt-0.5 whitespace-nowrap">
+                  Host Country
+                </span>
+              </div>
+            </a>
+          </div>
+
+          {/* Desktop & Laptop Navigation (Optimized starting from lg: 1024px) */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+            {/* Primary Direct Links */}
             {[
               { label: "Overview", id: "overview" },
-              { label: "Delegates", id: "delegates" },
-              { label: "Dress Code", id: "dresscode" },
-              { label: "Resources", id: "resources" },
-              { label: "Hotels", id: "hotels" },
-              { label: "Explore", id: "explorejakarta" },
-              { label: "Culinary", id: "culinary" },
               { label: "Venue", id: "venue" },
+              { label: "Hotels", id: "hotels" },
+              { label: "Resources", id: "resources" },
+              { label: "Delegates", id: "delegates" },
             ].map(({ label, id }) => (
               <a
                 key={id}
                 href={`#${id}`}
-                className="px-2.5 xl:px-3.5 py-2 text-[13px] xl:text-[15px] font-extrabold text-slate-800 hover:text-orange-600 hover:bg-orange-50/80 active:bg-orange-100 rounded-xl transition-all duration-150 tracking-tight"
+                className="px-2.5 py-1.5 xl:px-3 text-[13px] font-extrabold text-slate-700 hover:text-orange-600 hover:bg-orange-50/80 active:bg-orange-100 rounded-xl transition-all duration-150 tracking-tight"
               >
                 {label}
               </a>
             ))}
+
+            {/* Interactive Dropdown: Delegate Guide & City Info */}
+            <div
+              className="relative"
+              onMouseEnter={() => setGuideDropdown(true)}
+              onMouseLeave={() => setGuideDropdown(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setGuideDropdown(!guideDropdown)}
+                className={`flex items-center gap-1 px-2.5 py-1.5 xl:px-3 text-[13px] font-extrabold rounded-xl transition-all duration-150 tracking-tight cursor-pointer ${
+                  guideDropdown
+                    ? "text-orange-600 bg-orange-50"
+                    : "text-slate-700 hover:text-orange-600 hover:bg-orange-50/80"
+                }`}
+                aria-expanded={guideDropdown}
+              >
+                <span>Guide & City</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    guideDropdown ? "rotate-180 text-orange-600" : "text-slate-400"
+                  }`}
+                />
+              </button>
+
+              {guideDropdown && (
+                <div className="absolute right-0 top-full pt-1.5 w-72 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                  <div className="bg-white rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-200/90 p-2 space-y-1">
+                    {[
+                      {
+                        label: "Dress Code & Guidelines",
+                        desc: "Formal attire & cultural etiquette",
+                        id: "dresscode",
+                        icon: FileText,
+                      },
+                      {
+                        label: "Logistics & Arrival",
+                        desc: "Visa on arrival, airport taxi & contacts",
+                        id: "logistics",
+                        icon: Plane,
+                      },
+                      {
+                        label: "Explore Jakarta",
+                        desc: "Monas, Kota Tua & city attractions",
+                        id: "explorejakarta",
+                        icon: Landmark,
+                      },
+                      {
+                        label: "Indonesian Culinary",
+                        desc: "Rendang, satay & recommended dining",
+                        id: "culinary",
+                        icon: Utensils,
+                      },
+                    ].map(({ label, desc, id, icon: ItemIcon }) => (
+                      <a
+                        key={id}
+                        href={`#${id}`}
+                        onClick={() => setGuideDropdown(false)}
+                        className="flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-orange-50/80 group transition-colors"
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                          <ItemIcon className="w-3.5 h-3.5" />
+                        </div>
+                        <div>
+                          <span className="block text-xs font-bold text-slate-800 group-hover:text-orange-600 transition-colors">
+                            {label}
+                          </span>
+                          <span className="block text-[11px] text-slate-500 font-medium leading-tight">
+                            {desc}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Header Registration CTA Button */}
+            <a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2 inline-flex items-center gap-1.5 px-3.5 py-1.5 xl:px-4 xl:py-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-extrabold text-xs shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105 active:scale-95 transition-all whitespace-nowrap"
+            >
+              <UserCheck className="w-3.5 h-3.5" />
+              <span>Register</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
           </nav>
 
-          {/* Mobile & Tablet Button: Lebih Besar, Ada Tulisan "Menu" untuk Kemudahan Orang Tua */}
-          <div className="flex items-center lg:hidden">
+          {/* Mobile & Tablet Controls (< lg: 1024px) */}
+          <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
+            <a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3 rounded-lg bg-orange-600 text-white font-bold text-xs shadow-sm hover:bg-orange-700 active:scale-95 transition-all"
+            >
+              <span>Register</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+
             <button
               onClick={() => setMobileNav(!mobileNav)}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-300 text-slate-900 font-bold text-sm hover:bg-orange-50 hover:text-orange-600 hover:border-orange-300 transition-all shadow-sm active:scale-95"
+              className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3 rounded-lg bg-slate-100 border border-slate-300 text-slate-900 font-bold text-xs hover:bg-orange-50 hover:text-orange-600 transition-all shadow-sm active:scale-95"
               aria-label="Toggle Navigation Menu"
             >
               {mobileNav ? (
                 <>
-                  <X className="w-5 h-5 text-orange-600 stroke-[2.5]" />
-                  <span className="font-extrabold text-orange-600 text-xs sm:text-sm">Tutup</span>
+                  <X className="w-4 h-4 text-orange-600 stroke-[2.5]" />
+                  <span className="font-extrabold text-orange-600">Close</span>
                 </>
               ) : (
                 <>
-                  <Menu className="w-5 h-5 text-orange-600 stroke-[2.5]" />
-                  <span className="font-extrabold text-slate-900 text-xs sm:text-sm">Menu</span>
+                  <Menu className="w-4 h-4 text-slate-800 stroke-[2.5]" />
+                  <span className="font-extrabold text-slate-800">Menu</span>
                 </>
               )}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown: Font Besar, Jelas & Mudah Ditekan untuk Layar HP/Tablet */}
+        {/* Mobile & Tablet Drawer (< lg: 1024px) */}
         {mobileNav && (
-          <div className="lg:hidden border-t border-slate-200 bg-white shadow-2xl px-4 py-3 max-h-[calc(100vh-80px)] overflow-y-auto animate-in slide-in-from-top-2 duration-200">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-              {[
-                { label: "Overview", sub: "Ringkasan Acara", id: "overview" },
-                { label: "Delegates", sub: "Negara Peserta", id: "delegates" },
-                { label: "Dress Code", sub: "Panduan Busana", id: "dresscode" },
-                { label: "Resources", sub: "Materi & Dokumen", id: "resources" },
-                { label: "Hotels", sub: "Rekomendasi Penginapan", id: "hotels" },
-                { label: "Explore Jakarta", sub: "Destinasi Wisata", id: "explorejakarta" },
-                { label: "Culinary", sub: "Kuliner Khas", id: "culinary" },
-                { label: "Venue & Guide", sub: "Lokasi Menara Thamrin", id: "venue" },
-              ].map(({ label, sub, id }) => (
-                <a
-                  key={id}
-                  href={`#${id}`}
-                  onClick={() => setMobileNav(false)}
-                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-orange-500/10 border border-slate-200/80 hover:border-orange-300 transition-all"
-                >
-                  <div>
-                    <span className="block text-sm sm:text-base font-extrabold text-[#0B1E43]">
-                      {label}
-                    </span>
-                    <span className="text-[11px] text-slate-500 font-medium">
-                      {sub}
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-orange-500" />
-                </a>
-              ))}
+          <div className="lg:hidden border-t border-slate-200 bg-white shadow-2xl px-4 py-4 max-h-[calc(100vh-64px)] sm:max-h-[calc(100vh-80px)] overflow-y-auto animate-in slide-in-from-top-2 duration-200">
+            {/* Top Registration Highlight */}
+            <a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full mb-3 flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md font-bold"
+            >
+              <div className="flex items-center gap-2">
+                <UserCheck className="w-4 h-4" />
+                <span className="text-sm">Participant Registration Form</span>
+              </div>
+              <ExternalLink className="w-4 h-4" />
+            </a>
+
+            {/* Categorized Menu Grid for Tablet & Mobile */}
+            <div className="space-y-3">
+              {/* Conference Essentials */}
+              <div>
+                <span className="text-[10px] font-extrabold text-slate-400 tracking-wider uppercase px-1">
+                  Conference Essentials
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-1">
+                  {[
+                    { label: "Overview", sub: "Workshop Objectives & Theme", id: "overview", icon: Info },
+                    { label: "Venue & Hall", sub: "Menara Thamrin 9th Floor (UNDP)", id: "venue", icon: Building2 },
+                    { label: "Hotels & Stay", sub: "Sari Pacific & Four Points", id: "hotels", icon: Hotel },
+                    { label: "Resources", sub: "Agenda, Files & Documentation", id: "resources", icon: Folder },
+                    { label: "Delegates", sub: "Participating Delegations", id: "delegates", icon: Users },
+                  ].map(({ label, sub, id, icon: ItemIcon }) => (
+                    <a
+                      key={id}
+                      href={`#${id}`}
+                      onClick={() => setMobileNav(false)}
+                      className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-orange-50 border border-slate-200/80 hover:border-orange-300 transition-all group"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 text-orange-600 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                          <ItemIcon className="w-3.5 h-3.5" />
+                        </div>
+                        <div>
+                          <span className="block text-xs font-bold text-slate-800 group-hover:text-orange-600 transition-colors">
+                            {label}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium">
+                            {sub}
+                          </span>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-orange-500 transition-colors" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Delegate Guide & Host City */}
+              <div>
+                <span className="text-[10px] font-extrabold text-slate-400 tracking-wider uppercase px-1">
+                  Delegate Guide & Host City
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-1">
+                  {[
+                    { label: "Guidelines", sub: "Recommended Dress Code & Etiquette", id: "dresscode", icon: FileText },
+                    { label: "Logistics", sub: "Visa, Airport Taxi & Contacts", id: "logistics", icon: Plane },
+                    { label: "Explore Jakarta", sub: "Historic Monuments & Sights", id: "explorejakarta", icon: Landmark },
+                    { label: "Indonesian Culinary", sub: "Authentic Delicacies & Dining", id: "culinary", icon: Utensils },
+                  ].map(({ label, sub, id, icon: ItemIcon }) => (
+                    <a
+                      key={id}
+                      href={`#${id}`}
+                      onClick={() => setMobileNav(false)}
+                      className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-orange-50 border border-slate-200/80 hover:border-orange-300 transition-all group"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 text-orange-600 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                          <ItemIcon className="w-3.5 h-3.5" />
+                        </div>
+                        <div>
+                          <span className="block text-xs font-bold text-slate-800 group-hover:text-orange-600 transition-colors">
+                            {label}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium">
+                            {sub}
+                          </span>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-orange-500 transition-colors" />
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}
       </header>
 
       {/* Spacer to prevent layout shift beneath fixed header */}
-      <div className="h-20" />
+      <div className="h-16 sm:h-20" />
 
       {/* ──────────────────────────────────────────────────────────
-          HERO
+          HERO (Symmetrical & Non-Redundant Layout)
           ────────────────────────────────────────────────────────── */}
       <section
         id="overview"
@@ -547,109 +670,146 @@ export default function BimpEagaLandingPage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-            {/* Teks Kiri */}
+            {/* Left Column: Workshop Introduction & Actions */}
             <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-md border border-white/[0.12] text-orange-400 text-[11px] font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 text-orange-400" />
-                <span>United Nations Statistics Division (UNSD) &bull; BPS RI</span>
+                <span>United Nations Statistics Division (UNSD) &bull; Host: BPS-Statistics Indonesia</span>
               </div>
 
               <div>
                 <h1 className="text-xl sm:text-2xl lg:text-[1.85rem] lg:leading-[1.25] font-extrabold text-white tracking-tight">
-                  Workshop on International Merchandise Trade Statistics{" "}
+                  Workshop on International Merchandise Trade Statistics, Concepts, and Definitions{" "}
                   <span className="text-orange-400 font-black">(IMTS 2026)</span>{" "}
-                  and Statistics of International Trade in Services{" "}
-                  <span className="text-orange-400 font-black">(SITS 2026)</span>
+                  and Manual on Statistics of International Trade in Services{" "}
+                  <span className="text-orange-400 font-black">(MSITS 2026)</span>
                 </h1>
-                <p className="text-slate-300/80 text-xs sm:text-sm mt-2 italic leading-relaxed">
-                  UNSD Workshop &bull; Lokakarya Statistik Perdagangan Barang Internasional (IMTS 2026) dan Statistik Perdagangan Jasa Internasional (SITS 2026)
+                <p className="text-slate-300 text-xs sm:text-sm mt-2.5 leading-relaxed">
+                  Joint international capacity-building workshop organized by the United Nations Statistics Division (UNSD) and hosted by BPS-Statistics Indonesia for ASEAN delegates and international statistical experts.
                 </p>
               </div>
 
               {/* Badges Info */}
-              <div className="flex flex-wrap gap-2.5 pt-1">
-                <div className="flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.10] rounded-xl px-3.5 py-2">
-                  <div className="w-7 h-7 rounded-lg bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <div className="flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.10] rounded-xl px-3.5 py-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center flex-shrink-0">
                     <Calendar className="w-4 h-4 text-orange-400" />
                   </div>
                   <div>
                     <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                      Date / Tanggal
+                      Date & Schedule
                     </span>
                     <span className="text-xs font-bold text-white">
-                      7 – 11 Desember 2026
+                      7 – 11 December 2026 (Starts 9:00 AM)
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.10] rounded-xl px-3.5 py-2">
-                  <div className="w-7 h-7 rounded-lg bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-2.5 bg-white/[0.07] backdrop-blur-md border border-white/[0.10] rounded-xl px-3.5 py-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-4 h-4 text-orange-400" />
                   </div>
                   <div>
                     <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                      Venue / Lokasi
+                      Meeting Venue
                     </span>
                     <span className="text-xs font-bold text-white">
-                      UNDP Indonesia, Lantai 9
+                      UNDP Office, Menara Thamrin 9th Floor
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-2.5 pt-2">
+              {/* Quick Conference Highlights (Balances Left Height) */}
+              <div className="flex flex-wrap items-center gap-2 pt-0.5 text-[11px] text-slate-300">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10">
+                  <Globe className="w-3 h-3 text-sky-400" /> 11 ASEAN Delegations
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10">
+                  <Users className="w-3 h-3 text-orange-400" /> In-Person Deliberations
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10">
+                  <Building2 className="w-3 h-3 text-emerald-400" /> Central Jakarta Venue
+                </span>
+              </div>
+
+              {/* Action Buttons: Unified 2x2 Layout Without Orphan Wrapping */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
                 <a
-                  href="#resources"
-                  className="group inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.02] transition-all duration-200"
+                  href={REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs sm:text-sm font-extrabold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.02] transition-all"
                 >
-                  <span>View Resources</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <UserCheck className="w-4 h-4" />
+                  <span>Participant Registration</span>
+                  <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
 
-                <button
-                  onClick={() => openQr("Meeting Venue", "UNDP Indonesia, Lantai 9", UNDP_MAP_URL)}
-                  className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-full bg-white/[0.12] backdrop-blur-md border border-white/[0.20] text-white text-xs sm:text-sm font-bold hover:bg-white/[0.20] hover:scale-[1.02] transition-all duration-200"
+                <a
+                  href="#resources"
+                  className="inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-xl bg-white/[0.12] backdrop-blur-md border border-white/[0.20] text-white text-xs sm:text-sm font-bold hover:bg-white/[0.20] hover:scale-[1.02] transition-all"
                 >
-                  <QrCode className="w-4 h-4 text-orange-400" />
-                  <span>Scan Code / QR Lokasi</span>
-                </button>
+                  <span>View Resources & Files</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
 
                 <a
                   href={UNDP_MAP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/[0.12] text-slate-300 text-xs sm:text-sm font-medium hover:text-white hover:bg-white/[0.10] transition-colors"
+                  className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-white/[0.07] border border-white/[0.12] text-slate-200 text-xs font-semibold hover:text-white hover:bg-white/[0.14] transition-all"
                 >
                   <MapPinned className="w-3.5 h-3.5 text-orange-400" />
-                  <span>Google Maps</span>
+                  <span>Open in Google Maps</span>
+                  <ExternalLink className="w-3 h-3 text-slate-400" />
                 </a>
+
+                <button
+                  onClick={() => openQr("Meeting Venue", "UNDP Indonesia, Menara Thamrin 9th Floor", UNDP_MAP_URL)}
+                  className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-white/[0.07] border border-white/[0.12] text-slate-200 text-xs font-semibold hover:text-white hover:bg-white/[0.14] transition-all"
+                >
+                  <QrCode className="w-3.5 h-3.5 text-orange-400" />
+                  <span>Scan Venue QR Code</span>
+                </button>
               </div>
             </div>
 
-            {/* Host Card Kanan */}
+            {/* Right Column: Host Committee Card (Clean, Non-Duplicated) */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-[320px]">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/20 via-transparent to-blue-500/15 blur-xl scale-105 pointer-events-none" />
+              <div className="relative w-full max-w-[360px] lg:max-w-[380px]">
+                {/* Ambient Glow */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-500/20 via-sky-500/15 to-blue-600/20 blur-2xl scale-105 pointer-events-none" />
 
-                <div className="relative bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl p-4 sm:p-5 shadow-xl text-center">
-                  <div className="flex items-end justify-center mb-3">
-                    <img
-                      src="/assets/salamBPS.png"
-                      alt="Official Host & Committee - BPS Statistics Indonesia"
-                      className="w-full max-h-56 sm:max-h-64 object-contain drop-shadow-2xl hover:scale-[1.02] transition-transform duration-300"
-                    />
+                <div className="relative bg-white/[0.08] backdrop-blur-2xl border border-white/[0.15] rounded-3xl p-5 shadow-2xl text-center space-y-3.5">
+                  {/* Framed Portrait Box */}
+                  <div className="relative rounded-2xl bg-gradient-to-b from-sky-900/30 via-slate-900/40 to-slate-950/70 border border-white/10 overflow-hidden pt-3 px-2 pb-0 shadow-inner group">
+                    {/* Top indicator */}
+                    <div className="absolute top-2.5 inset-x-0 flex justify-center z-10 pointer-events-none">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/15 text-[10px] font-bold text-orange-300 uppercase tracking-wider shadow-sm">
+                        <Users className="w-3 h-3 text-orange-400" /> Official Host Committee
+                      </span>
+                    </div>
+
+                    <div className="flex items-end justify-center pt-4">
+                      <img
+                        src="/assets/salamBPS.png"
+                        alt="Official Host & Committee - BPS-Statistics Indonesia"
+                        className="w-full max-h-56 sm:max-h-64 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)] group-hover:scale-[1.02] transition-transform duration-300"
+                      />
+                    </div>
                   </div>
 
-                  <div className="border-t border-white/10 pt-3">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
-                      <Users className="w-3 h-3" /> Official Host & Committee
+                  {/* Clean, Non-Duplicated Caption */}
+                  <div className="space-y-1.5 pt-0.5">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[11px] font-extrabold uppercase tracking-wider shadow-md shadow-orange-500/20">
+                      BPS-Statistics Indonesia
                     </span>
-                    <p className="text-[11px] text-slate-200 mt-1.5 leading-tight font-medium">
-                      BPS-Statistics Indonesia Welcomes All Distinguished Delegates
-                    </p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 italic">
-                      Menyambut Seluruh Delegasi Terhormat
+                    <h3 className="text-xs sm:text-[13px] text-white font-bold leading-snug">
+                      Welcoming All Distinguished Delegates
+                    </h3>
+                    <p className="text-[11px] text-slate-300 font-medium">
+                      National Statistical Office of the Republic of Indonesia & Organizing Committee
                     </p>
                   </div>
                 </div>
@@ -659,7 +819,7 @@ export default function BimpEagaLandingPage() {
         </div>
       </section>
 
-      {/* ──────────────────────────────────────────────────────────
+{/* ──────────────────────────────────────────────────────────
           WELCOME & DELEGATES
           ────────────────────────────────────────────────────────── */}
       <section
@@ -674,11 +834,8 @@ export default function BimpEagaLandingPage() {
                 Jakarta!
               </span>
             </h2>
-            <p className="text-slate-200/90 text-xs sm:text-sm leading-relaxed mt-2 max-w-2xl">
-              Indonesia is honored to host the UNSD Workshop on IMTS 2026 and SITS 2026 in collaboration with the United Nations Statistics Division (UNSD) and BPS-Statistics Indonesia. We look forward to strengthening international statistical cooperation through collaboration, innovation, and knowledge sharing.
-            </p>
-            <p className="text-slate-400 text-xs mt-1 italic max-w-2xl leading-relaxed">
-              Indonesia merasa terhormat menjadi tuan rumah kegiatan UNSD Workshop on IMTS 2026 and SITS 2026 yang diselenggarakan bekerja sama dengan United Nations Statistics Division (UNSD) dan BPS-Statistics Indonesia.
+            <p className="text-slate-200 text-xs sm:text-sm leading-relaxed mt-2 max-w-2xl">
+              Indonesia is honored to host the UNSD Workshop on IMTS 2026 and MSITS 2026, jointly organized by the United Nations Statistics Division (UNSD) and BPS-Statistics Indonesia. We warmly look forward to advancing international trade statistics concepts, methodologies, and multilateral statistical cooperation.
             </p>
           </div>
 
@@ -688,9 +845,6 @@ export default function BimpEagaLandingPage() {
                 <Globe className="w-4 h-4 text-orange-400" />
                 <span className="text-xs uppercase font-bold tracking-wider text-orange-400">
                   Participating Delegations
-                </span>
-                <span className="text-[11px] text-slate-400 italic">
-                  / Delegasi 11 Negara
                 </span>
               </div>
               <span className="text-[11px] text-slate-300 font-semibold bg-white/[0.08] px-3 py-1 rounded-full w-fit">
@@ -731,19 +885,16 @@ export default function BimpEagaLandingPage() {
 
             <div className="mt-6 pt-4 border-t border-white/[0.08] grid grid-cols-3 gap-4 text-center">
               {[
-                { val: "11", labelEn: "Delegations", labelId: "Delegasi" },
-                { val: "5 Days", labelEn: "Working Sessions", labelId: "Hari Kerja" },
-                { val: "UNDP", labelEn: "Meeting Venue", labelId: "Lokasi Pertemuan" },
-              ].map(({ val, labelEn, labelId }, i) => (
+                { val: "11", labelEn: "Member Delegations" },
+                { val: "5 Days", labelEn: "Technical Sessions" },
+                { val: "UNDP", labelEn: "Meeting Venue" },
+              ].map(({ val, labelEn }, i) => (
                 <div key={i}>
                   <span className="block text-xl sm:text-2xl font-black text-orange-400">
                     {val}
                   </span>
                   <span className="text-[11px] text-slate-300 font-medium block">
                     {labelEn}
-                  </span>
-                  <span className="text-[10px] text-slate-400 italic block">
-                    {labelId}
                   </span>
                 </div>
               ))}
@@ -765,10 +916,7 @@ export default function BimpEagaLandingPage() {
               Dress Code
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Recommended attire for delegates during the meeting sessions.
-            </p>
-            <p className="text-slate-400 text-xs italic mt-0.5">
-              Pakaian yang disarankan untuk delegasi selama sesi pertemuan.
+              Recommended attire for delegates during the workshop sessions.
             </p>
           </div>
 
@@ -778,16 +926,13 @@ export default function BimpEagaLandingPage() {
               <div className="p-5 sm:p-6 flex items-center justify-between gap-4">
                 <div className="flex-1 space-y-2">
                   <span className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-orange-500 text-white shadow-sm">
-                    Day 1 / Hari 1
+                    Day 1 (Monday, 7 Dec)
                   </span>
                   <h3 className="text-lg sm:text-xl font-bold text-white">
                     Business Attire
                   </h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    Formal business suit, blazer, or formal delegation uniform for the opening ceremony and plenary sessions.
-                  </p>
-                  <p className="text-[11px] text-slate-400 italic leading-relaxed">
-                    Jas formal, blazer, atau seragam resmi delegasi untuk pembukaan dan pleno.
+                    Formal business suit, blazer, or formal delegation attire for the opening ceremony and plenary sessions.
                   </p>
                 </div>
                 <div className="flex-shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden bg-white/[0.08] backdrop-blur-md border border-white/10 p-2 flex items-center justify-center">
@@ -800,21 +945,18 @@ export default function BimpEagaLandingPage() {
               </div>
             </div>
 
-            {/* Day 2 */}
+            {/* Day 2-5 */}
             <div className="group relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#0E275A] to-[#071533] shadow-md hover:shadow-xl transition-all duration-200 flex flex-col justify-between">
               <div className="p-5 sm:p-6 flex items-center justify-between gap-4">
                 <div className="flex-1 space-y-2">
                   <span className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/15 text-slate-200 border border-white/10">
-                    Day 2 / Hari 2
+                    Day 2 – 5 (8 – 11 Dec)
                   </span>
                   <h3 className="text-lg sm:text-xl font-bold text-white">
-                    Formal Casual
+                    Formal Casual & Batik
                   </h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    Smart casual attire, batik, national dress, or collared shirts suitable for workshops and discussions.
-                  </p>
-                  <p className="text-[11px] text-slate-400 italic leading-relaxed">
-                    Pakaian kasual rapi, batik, pakaian nasional, atau kemeja berkerah.
+                    Smart casual attire, traditional batik, national dress, or collared shirts suitable for workshops and discussions.
                   </p>
                 </div>
                 <div className="flex-shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden bg-white/[0.08] backdrop-blur-md border border-white/10 p-1 flex items-center justify-center">
@@ -831,7 +973,7 @@ export default function BimpEagaLandingPage() {
       </section>
 
       {/* ──────────────────────────────────────────────────────────
-          RESOURCES
+          RESOURCES & REGISTRATION
           ────────────────────────────────────────────────────────── */}
       <section id="resources" className="py-12 lg:py-14 bg-white border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -840,27 +982,47 @@ export default function BimpEagaLandingPage() {
               Delegate Portal
             </span>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#0B1E43] mt-2">
-              Resources
+              Resources & Participant Portal
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Essential documents and schedules for delegates.
-            </p>
-            <p className="text-slate-400 text-xs italic mt-0.5">
-              Dokumen penting dan jadwal untuk para delegasi.
+              Essential registration link, workshop schedules, and documentation for delegates.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 max-w-5xl mx-auto">
+            {/* Direct Registration Card */}
+            <a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between px-4 py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <UserCheck className="w-4 h-4 text-white" />
+                </div>
+                <div className="min-w-0">
+                  <span className="font-extrabold text-xs sm:text-sm block truncate text-white">
+                    Registration
+                  </span>
+                  <span className="text-[10px] text-orange-100 block truncate">
+                    Official Participant Form
+                  </span>
+                </div>
+              </div>
+              <ExternalLink className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform flex-shrink-0 ml-1" />
+            </a>
+
             {[
-              { key: "agenda", label: "Agenda", labelId: "Jadwal", Icon: Calendar, color: "orange" },
-              { key: "materials", label: "Materials", labelId: "Materi", Icon: Folder, color: "blue" },
-              { key: "moments", label: "Moments", labelId: "Dokumentasi", Icon: Camera, color: "emerald" },
-              { key: "certificate", label: "Certificate", labelId: "Sertifikat", Icon: Award, color: "amber" },
-            ].map(({ key, label, labelId, Icon, color }) => (
+              { key: "agenda", label: "Agenda", sub: "Workshop Schedule", Icon: Calendar, color: "orange" },
+              { key: "materials", label: "Materials", sub: "Presentations & Files", Icon: Folder, color: "blue" },
+              { key: "moments", label: "Moments", sub: "Photo Gallery", Icon: Camera, color: "emerald" },
+              { key: "certificate", label: "Certificate", sub: "Attendance Certificate", Icon: Award, color: "amber" },
+            ].map(({ key, label, sub, Icon, color }) => (
               <button
                 key={key}
                 onClick={() => setActiveModal(key)}
-                className="group flex items-center justify-between px-4 py-3 rounded-full bg-white border border-slate-200 shadow-sm hover:shadow-md hover:scale-[1.02] hover:border-orange-300 transition-all duration-200 text-left"
+                className="group flex items-center justify-between px-4 py-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:scale-[1.02] hover:border-orange-300 transition-all duration-200 text-left"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div
@@ -880,8 +1042,8 @@ export default function BimpEagaLandingPage() {
                     <span className="font-bold text-xs sm:text-sm text-slate-800 block truncate group-hover:text-orange-600 transition-colors">
                       {label}
                     </span>
-                    <span className="text-[10px] text-slate-400 italic block truncate">
-                      {labelId}
+                    <span className="text-[10px] text-slate-400 block truncate">
+                      {sub}
                     </span>
                   </div>
                 </div>
@@ -893,23 +1055,20 @@ export default function BimpEagaLandingPage() {
       </section>
 
       {/* ──────────────────────────────────────────────────────────
-          HOTEL RECOMMENDATIONS FOR ASEAN GUESTS
+          HOTEL RECOMMENDATIONS FOR PARTICIPANTS (From Information Note)
           ────────────────────────────────────────────────────────── */}
       <section id="hotels" className="py-12 lg:py-16 bg-slate-50 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="text-center mb-6">
             <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-3.5 py-1 rounded-full border border-orange-200">
-              <Hotel className="w-3.5 h-3.5" /> ASEAN Delegate Accommodations / Rekomendasi Hotel
+              <Hotel className="w-3.5 h-3.5" /> Participant Accommodations
             </span>
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#0B1E43] mt-2">
-              Recommended Hotels Near UNDP Indonesia
+              Recommended Hotels Near Workshop Venue
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl mx-auto">
-              Curated comfortable accommodations located within walking and short driving distance from the workshop venue.
-            </p>
-            <p className="text-slate-400 text-xs italic mt-0.5 max-w-2xl mx-auto">
-              Hotel pilihan dengan kenyamanan terbaik dan berjarak dekat dari Menara Thamrin (Kantor UNDP Indonesia).
+              Suggested hotels as outlined in the official Information Note. Participants are kindly requested to make their own reservations.
             </p>
           </div>
 
@@ -918,17 +1077,17 @@ export default function BimpEagaLandingPage() {
             <div className="flex items-center justify-center gap-1.5 text-orange-700">
               <Compass className="w-3.5 h-3.5" />
               <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
-                Reference Departure Point &bull; Titik Acuan Perjalanan:
+                Reference Departure Point:
               </span>
             </div>
             <p className="text-xs sm:text-sm font-bold text-[#0B1E43] mt-0.5">
-              United Nations Development Programme (UNDP) Indonesia Country Office
+              UNDP Office, Menara Thamrin 9th Floor (Workshop Venue)
             </p>
             <p className="text-[11px] text-slate-600">
-              Menara Thamrin, Jl. M.H. Thamrin Kav. 3, Kebon Sirih, Menteng, Jakarta Pusat 10250, Indonesia
+              Jl. M.H. Thamrin Kav. 3, Kebon Sirih, Menteng, Jakarta Pusat 10250, Indonesia
             </p>
             <p className="text-[10px] text-slate-500 italic mt-0.5">
-              Seluruh informasi jarak dan perkiraan waktu tempuh mengacu pada lokasi tersebut.
+              All walking and driving distance estimates are calculated from this reference venue.
             </p>
           </div>
 
@@ -967,14 +1126,14 @@ export default function BimpEagaLandingPage() {
                     <div className="absolute bottom-2.5 inset-x-3 flex items-center justify-between text-white text-[11px]">
                       <span className="inline-flex items-center gap-1 font-semibold bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-md">
                         <MapPin className="w-3 h-3 text-orange-400" />
-                        {hotel.distance} ke UNDP
+                        {hotel.distance}
                       </span>
                       <button
                         onClick={() => setHotelModal(hotel)}
                         className="inline-flex items-center gap-1 bg-white/95 text-[#0B1E43] font-bold text-[10px] px-2 py-0.5 rounded-md shadow hover:bg-orange-500 hover:text-white transition-colors"
                         title="Scan QR Code Directions"
                       >
-                        <QrCode className="w-3 h-3" /> QR Arah
+                        <QrCode className="w-3 h-3" /> Route QR
                       </button>
                     </div>
                   </div>
@@ -986,22 +1145,22 @@ export default function BimpEagaLandingPage() {
                       <h3 className="text-base font-bold text-[#0B1E43] group-hover:text-orange-600 transition-colors leading-snug line-clamp-2 min-h-[44px]">
                         {hotel.name}
                       </h3>
-                      <p className="text-[11px] text-slate-500 mt-1 line-clamp-1 flex items-start gap-1">
+                      <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 flex items-start gap-1">
                         <MapPin className="w-3 h-3 text-slate-400 flex-shrink-0 mt-0.5" />
                         <span>{hotel.address}</span>
                       </p>
                     </div>
 
-                    {/* Estimated Price Box (High Visual Priority) */}
+                    {/* Estimated Price Box */}
                     <div className="p-3 rounded-xl bg-orange-50/70 border border-orange-100">
                       <span className="block text-[10px] font-extrabold uppercase tracking-wider text-orange-700">
-                        Estimated Price per Night
+                        Estimated Budget Rate
                       </span>
                       <div className="text-base sm:text-lg font-black text-orange-600 tracking-tight mt-0.5">
                         {hotel.priceRange}
                       </div>
                       <div className="text-[10px] text-slate-500 mt-0.5">
-                        {hotel.priceNoteEn} &bull; <span className="italic">{hotel.priceNoteId}</span>
+                        {hotel.priceNoteEn}
                       </div>
                     </div>
 
@@ -1009,23 +1168,38 @@ export default function BimpEagaLandingPage() {
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1.5 text-xs text-slate-600">
                       <div className="flex items-center justify-between">
                         <span className="font-semibold text-slate-700 flex items-center gap-1.5">
-                          <Compass className="w-3.5 h-3.5 text-orange-500" /> Jarak ke UNDP:
+                          <Compass className="w-3.5 h-3.5 text-orange-500" /> Venue Distance:
                         </span>
                         <span className="font-bold text-[#0B1E43]">{hotel.distance}</span>
                       </div>
                       <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-200/60">
                         <span className="flex items-center gap-1">
-                          <Footprints className="w-3 h-3 text-slate-400" /> Jalan Kaki:
+                          <Footprints className="w-3 h-3 text-slate-400" /> Walking:
                         </span>
                         <span className="font-medium text-slate-700">{hotel.walkTime}</span>
                       </div>
                       <div className="flex items-center justify-between text-[11px] text-slate-500">
                         <span className="flex items-center gap-1">
-                          <Car className="w-3 h-3 text-slate-400" /> Mobil / Taksi:
+                          <Car className="w-3 h-3 text-slate-400" /> Taxi / Car:
                         </span>
                         <span className="font-medium text-slate-700">{hotel.carTime}</span>
                       </div>
                     </div>
+
+                    {/* Official Hotel Contact Person if available */}
+                    {hotel.contactPerson && (
+                      <div className="p-2.5 rounded-xl bg-blue-50/60 border border-blue-100 text-[11px] space-y-1">
+                        <div className="text-slate-500 font-medium">Hotel Contact:</div>
+                        <div className="font-bold text-[#0B1E43]">{hotel.contactPerson}</div>
+                        <a
+                          href={`mailto:${hotel.contactEmail}`}
+                          className="text-orange-600 hover:underline flex items-center gap-1 truncate text-[10.5px]"
+                        >
+                          <Mail className="w-3 h-3 flex-shrink-0" />
+                          <span className="truncate">{hotel.contactEmail}</span>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1041,7 +1215,7 @@ export default function BimpEagaLandingPage() {
                       title="Get walking directions from UNDP to this hotel"
                     >
                       <Navigation className="w-3.5 h-3.5 flex-shrink-0" />
-                      <span>Get Directions</span>
+                      <span>Directions</span>
                     </a>
                     <a
                       href={hotel.mapUrl}
@@ -1051,7 +1225,7 @@ export default function BimpEagaLandingPage() {
                       title="Open hotel location in Google Maps"
                     >
                       <MapPinned className="w-3.5 h-3.5 text-sky-400 flex-shrink-0" />
-                      <span>View on Google Maps</span>
+                      <span>Google Maps</span>
                     </a>
                   </div>
 
@@ -1063,7 +1237,7 @@ export default function BimpEagaLandingPage() {
                       title="View scannable QR Code modal"
                     >
                       <QrCode className="w-3.5 h-3.5 text-orange-600 flex-shrink-0" />
-                      <span>Scan QR Code</span>
+                      <span>Scan QR</span>
                     </button>
                     <button
                       onClick={() => handleDownloadHotelQr(hotel)}
@@ -1071,20 +1245,20 @@ export default function BimpEagaLandingPage() {
                       title="Download high-resolution scannable QR Code PNG"
                     >
                       <Download className="w-3.5 h-3.5 text-orange-600 flex-shrink-0" />
-                      <span>Download QR Code</span>
+                      <span>Save QR</span>
                     </button>
                   </div>
 
                   {/* Official Website Row */}
                   <div className="pt-1 flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-100">
-                    <span className="italic text-slate-400">Official Hotel Info</span>
+                    <span className="text-slate-400 font-medium">Hotel Booking</span>
                     <a
                       href={hotel.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-slate-600 hover:text-orange-600 font-medium transition-colors inline-flex items-center gap-1"
+                      className="text-slate-600 hover:text-orange-600 font-semibold transition-colors inline-flex items-center gap-1"
                     >
-                      <span>Website Resmi</span>
+                      <span>Official Website</span>
                       <ExternalLink className="w-3 h-3 text-orange-500" />
                     </a>
                   </div>
@@ -1093,18 +1267,455 @@ export default function BimpEagaLandingPage() {
             ))}
           </div>
 
-          {/* Mandatory Disclaimer Box */}
+          {/* Hotel Rate & Travel Time Disclaimer */}
           <div className="mt-8 max-w-4xl mx-auto p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm text-center space-y-2">
             <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-slate-700">
               <Info className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
-              <span>Hotel Rate & Travel Time Disclaimer / Ketentuan Estimasi Tarif & Waktu</span>
+              <span>Hotel Reservation & Indicative Rate Disclaimer</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed">
-              &ldquo;Prices, distances, and travel times are indicative estimates for planning purposes only. Actual hotel rates depend on booking dates, occupancy, and room categories. Travel times may vary based on traffic conditions in Central Jakarta.&rdquo;
+              &ldquo;Participants are kindly requested to make their own hotel reservations directly with the hotels. Prices, distances, and travel times are indicative estimates for planning purposes only. Actual rates depend on booking dates, occupancy, and room categories.&rdquo;
             </p>
-            <p className="text-[10px] sm:text-[11px] text-slate-400 italic leading-relaxed pt-1.5 border-t border-slate-100">
-              &ldquo;Harga, jarak, dan waktu tempuh merupakan perkiraan indikatif untuk keperluan perencanaan saja. Tarif hotel sebenarnya bergantung pada tanggal pemesanan, tingkat okupansi, dan kategori kamar. Waktu tempuh dapat bervariasi sesuai dengan kondisi lalu lintas di Jakarta Pusat.&rdquo;
+          </div>
+        </div>
+      </section>
+
+            {/* ──────────────────────────────────────────────────────────
+          MEETING VENUE — REDESIGNED & BALANCED (Zero Duplication & No Void)
+          ────────────────────────────────────────────────────────── */}
+      <section
+        id="venue"
+        className="relative bg-gradient-to-br from-[#061130] via-[#0B1E43] to-[#0F2A66] text-white py-12 lg:py-16 overflow-hidden"
+      >
+        <div className="absolute top-0 right-[10%] w-[350px] h-[350px] bg-orange-500/[0.06] rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-[15%] w-[300px] h-[300px] bg-sky-400/[0.04] rounded-full blur-[80px] pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-orange-400 mb-1">
+              <Building2 className="w-3.5 h-3.5" /> Official Workshop Venue
+            </span>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight">
+              Meeting Venue: Menara Thamrin (UNDP Indonesia)
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 mt-1.5 max-w-xl mx-auto">
+              All plenary sessions, technical workshops, and delegate meetings will be held on the 9th Floor of Menara Thamrin.
             </p>
+          </div>
+
+          {/* Unified Venue Spotlight: Perfectly Symmetrical 2-Column Architecture */}
+          <div className="bg-white/[0.05] backdrop-blur-xl border border-white/[0.12] rounded-3xl p-5 sm:p-7 lg:p-8 shadow-2xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+
+              {/* Left Column: Visual Showcase & Direct Venue Actions */}
+              <div className="lg:col-span-6 space-y-4">
+                {/* Active Main Photo Display */}
+                <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-xl bg-slate-900 aspect-[16/10]">
+                  <img
+                    src={venueGallery[activeVenueImg].src}
+                    alt={venueGallery[activeVenueImg].title}
+                    className="w-full h-full object-cover transition-all duration-500 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#061130] via-transparent to-transparent opacity-85 pointer-events-none" />
+
+                  {/* Top Badge */}
+                  <div className="absolute top-3 left-3 flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-md">
+                      <Sparkles className="w-3 h-3" /> {venueGallery[activeVenueImg].badge}
+                    </span>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md text-white/90 text-[10px] font-semibold border border-white/10">
+                      Menara Thamrin &bull; 9th Floor
+                    </span>
+                  </div>
+
+                  {/* Bottom Caption Bar */}
+                  <div className="absolute bottom-3 inset-x-3 p-3 rounded-xl bg-slate-950/75 backdrop-blur-md border border-white/15 flex items-center justify-between">
+                    <div className="min-w-0 pr-2 text-left">
+                      <h4 className="text-xs sm:text-sm font-bold text-white truncate">
+                        {venueGallery[activeVenueImg].title}
+                      </h4>
+                      <p className="text-[11px] text-slate-300 truncate">
+                        {venueGallery[activeVenueImg].caption}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => openQr("UNDP Indonesia — Menara Thamrin", "9th Floor, Jl. M.H. Thamrin Kav 3", UNDP_MAP_URL)}
+                      className="p-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors shadow-sm flex-shrink-0"
+                      title="Scan Venue QR Code"
+                    >
+                      <QrCode className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Gallery Selector Thumbnails */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+                      Interactive Photo Tour:
+                    </span>
+                    <span className="text-[10px] text-slate-400">
+                      Select photo to preview
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-4 xl:grid-cols-8 gap-1.5">
+                    {venueGallery.map((item, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveVenueImg(idx)}
+                        className={`group relative rounded-xl overflow-hidden aspect-[4/3] border transition-all duration-200 ${
+                          activeVenueImg === idx
+                            ? "ring-2 ring-orange-400 border-orange-400 scale-[1.03] shadow-md shadow-orange-500/30"
+                            : "border-white/15 opacity-70 hover:opacity-100 hover:border-white/30"
+                        }`}
+                        title={item.title}
+                      >
+                        <img
+                          src={item.src}
+                          alt={item.title}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                        <span className="absolute bottom-0 inset-x-0 text-[8px] font-bold text-white bg-black/80 p-0.5 truncate text-center">
+                          {item.badge}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Primary Venue Action Buttons */}
+                <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] space-y-2.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href={UNDP_MAP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold text-xs shadow-md hover:scale-[1.02] transition-transform"
+                    >
+                      <Navigation className="w-3.5 h-3.5" />
+                      <span>Open in Google Maps</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+
+                    <button
+                      onClick={() => openQr("UNDP Indonesia — Meeting Venue", "Menara Thamrin, 9th Floor, Central Jakarta", UNDP_MAP_URL)}
+                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.12] hover:bg-white/[0.18] text-white font-bold text-xs border border-white/15 transition-all"
+                    >
+                      <QrCode className="w-3.5 h-3.5 text-orange-400" />
+                      <span>Scan Venue QR Code</span>
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-[11px] text-slate-300 pt-1 border-t border-white/10">
+                    <MapPin className="w-3.5 h-3.5 text-orange-400 flex-shrink-0" />
+                    <span className="truncate">Menara Thamrin, 9th Floor, Jl. M.H. Thamrin Kav 3, Jakarta 10250</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Venue Profile & Integrated Floor Guide (Matches Left Height Exactly) */}
+              <div className="lg:col-span-6 space-y-4 text-left">
+                {/* Header Profile */}
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-400 text-[10px] font-bold uppercase tracking-wider mb-2">
+                    <Building2 className="w-3 h-3" />
+                    <span>UNDP Indonesia Country Office &bull; 9th Floor</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                    Menara Thamrin, Jakarta, Indonesia
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                    Situated along Jalan M.H. Thamrin in the core of Central Jakarta&apos;s diplomatic and business corridor, Menara Thamrin houses the United Nations Development Programme (UNDP) Country Office. The 9th Floor plenary facilities provide a dedicated international setting equipped with audiovisual systems and high-speed Wi-Fi.
+                  </p>
+                </div>
+
+                {/* Integrated Floor Directory & Amenities (Clicking updates the gallery!) */}
+                <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/[0.08] space-y-2.5">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+                      Floor Directory & Building Facilities
+                    </span>
+                    <span className="text-[10px] text-slate-400">
+                      Click to view photo
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs">
+                    {floorDirectory.map((item, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => setActiveVenueImg(item.galleryIndex)}
+                        className={`cursor-pointer p-2.5 rounded-xl border transition-all flex items-start justify-between gap-3 ${
+                          activeVenueImg === item.galleryIndex
+                            ? "bg-white/[0.09] border-orange-400/60 shadow-md ring-1 ring-orange-400/30"
+                            : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/20"
+                        }`}
+                      >
+                        <div className="space-y-0.5 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-white leading-snug">
+                              {item.title}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-slate-300 leading-snug">
+                            {item.desc}
+                          </p>
+                        </div>
+                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${item.badgeColor}`}>
+                          {item.floor}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Access Protocol Highlight */}
+                  <div className="mt-2 p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20 text-[11px] text-orange-200 flex items-start gap-2">
+                    <Info className="w-3.5 h-3.5 text-orange-400 flex-shrink-0 mt-0.5" />
+                    <p className="leading-snug">
+                      <strong className="text-white">Security Badge Access:</strong> All international delegates must register at the Ground Floor security reception to obtain visitor access badges for the 9th-floor elevators.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Directory Link Footer */}
+                <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                  <span>UNSD Workshop IMTS 2026 &bull; MSITS 2026</span>
+                  <a
+                    href="https://www.undp.org/indonesia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-orange-400 hover:text-orange-300 font-semibold transition-colors"
+                  >
+                    <span>UNDP Indonesia Directory</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Host Organization Headquarters Reference (Clear, Dignified & Non-Confusing) */}
+          <div className="mt-8 rounded-3xl bg-white/[0.05] backdrop-blur-xl border border-white/10 p-5 sm:p-6 shadow-xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="lg:col-span-4 rounded-2xl overflow-hidden aspect-[16/10] bg-slate-900 border border-white/10 relative">
+                <img
+                  src="/assets/gedungBPS.jpg"
+                  alt="BPS-Statistics Indonesia Headquarters"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                <span className="absolute top-3 left-3 bg-[#0B1E43]/90 backdrop-blur-md text-sky-300 text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full border border-sky-400/30 shadow-sm">
+                  Host Organization Headquarters
+                </span>
+              </div>
+
+              <div className="lg:col-span-8 space-y-3 text-left">
+                <div className="flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-sky-400" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-sky-400">
+                    Host Institution & Organizing Secretariat
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="text-lg sm:text-xl font-extrabold text-white">
+                    Badan Pusat Statistik (BPS-Statistics Indonesia)
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                    BPS-Statistics Indonesia is the National Statistical Office of Indonesia and the official host organizing institution for the IMTS 2026 and MSITS 2026 workshop in cooperation with the United Nations Statistics Division (UNSD).
+                  </p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs space-y-1">
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <MapPin className="w-3.5 h-3.5 text-orange-400 flex-shrink-0 mt-0.5" />
+                    <span>Jl. Dr. Sutomo No. 6-8, Pasar Baru, Sawah Besar, Jakarta Pusat 10710, Indonesia</span>
+                  </div>
+                  <p className="text-[11px] text-amber-300/90 italic pl-5.5">
+                    * Note: Workshop sessions take place at the UNDP Office (Menara Thamrin 9th Floor). The Pasar Baru address is the national BPS headquarters.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-1">
+                  <a
+                    href={BPS_MAP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 py-2 px-4 rounded-xl bg-white/[0.12] hover:bg-white/[0.20] text-white text-xs font-bold transition-all border border-white/15"
+                  >
+                    <Navigation className="w-3.5 h-3.5 text-sky-400" />
+                    <span>BPS HQ on Google Maps</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+                  <button
+                    onClick={() => openQr("BPS-Statistics Indonesia HQ", "Jl. Dr. Sutomo No. 6-8, Jakarta Pusat", BPS_MAP_URL)}
+                    className="inline-flex items-center gap-1.5 py-2 px-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white text-xs font-semibold transition-colors border border-white/10"
+                  >
+                    <QrCode className="w-3.5 h-3.5 text-sky-400" />
+                    <span>Scan BPS QR Code</span>
+                  </button>
+                  <a
+                    href="https://www.bps.go.id"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-slate-400 hover:text-orange-400 text-xs font-medium transition-colors ml-auto"
+                  >
+                    <span>Visit Official BPS Portal</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+{/* ──────────────────────────────────────────────────────────
+          INFORMATION NOTE & TRAVEL LOGISTICS (New Section from DOCX)
+          ────────────────────────────────────────────────────────── */}
+      <section id="logistics" className="py-12 lg:py-16 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-3.5 py-1 rounded-full border border-orange-200">
+              <FileText className="w-3.5 h-3.5" /> Official Information Note
+            </span>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#0B1E43] mt-2">
+              Travel Logistics, Visa & Secretariat Contacts
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl mx-auto">
+              Essential administrative, transportation, and contact guidelines for all attending delegates.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {/* 1. Visa Arrangements */}
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm space-y-4 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-3">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-bold text-[#0B1E43]">
+                  Entry Visa for Indonesia
+                </h3>
+                <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Visa applications are administered by the Indonesian Directorate General of Immigration. Delegates requiring a visa are advised to apply well in advance through the official online e-Visa portal.
+                </p>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-slate-100">
+                <a
+                  href="https://evisa.imigrasi.go.id/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-between p-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold text-xs transition-colors"
+                >
+                  <span>Official e-Visa Application Portal</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href="https://www.imigrasi.go.id/en/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-between p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-xs transition-colors"
+                >
+                  <span>Official Immigration Website</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                </a>
+              </div>
+            </div>
+
+            {/* 2. Airport to UNDP Office Transportation */}
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm space-y-4 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
+                  <Plane className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-bold text-[#0B1E43]">
+                  Airport Transfer to Venue
+                </h3>
+                <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Participants are responsible for arranging their local transportation between Soekarno-Hatta International Airport (CGK) and the workshop venue.
+                </p>
+                <div className="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-slate-500 font-medium">Recommended Taxi:</span>
+                    <strong className="text-blue-700">Bluebird Group</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500 font-medium">Estimated Fare:</span>
+                    <strong className="text-slate-700">IDR 152,000 – 300,000 (USD 10–20)</strong>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500 font-medium">Cash Advice:</span>
+                    <span className="text-slate-700 font-medium">Prepare ~IDR 300,000</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1.5 pt-2 border-t border-slate-100 text-[11px] text-slate-500">
+                <div className="flex items-center gap-1.5 font-medium">
+                  <Phone className="w-3 h-3 text-orange-500" />
+                  <span>Bluebird Center: +62-21 7917 1234 / 798 1234</span>
+                </div>
+                <div className="flex items-center gap-1.5 font-medium">
+                  <Mail className="w-3 h-3 text-orange-500" />
+                  <span>customercare@bluebirdgroup.com</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Meeting Documentation & Secretariat Contacts */}
+            <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm space-y-4 flex flex-col justify-between">
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3">
+                  <Users className="w-5 h-5" />
+                </div>
+                <h3 className="text-base font-bold text-[#0B1E43]">
+                  Workshop Secretariat Contacts
+                </h3>
+                <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  For administrative or technical inquiries regarding the workshop, please contact the BPS-Statistics Indonesia organizing committee:
+                </p>
+
+                <div className="mt-3 space-y-2 text-xs">
+                  {/* Angie Almira Manurung */}
+                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="font-bold text-[#0B1E43]">Ms. Angie Almira Manurung</div>
+                    <div className="text-[10px] text-slate-500">Junior Statistician, Directorate of Distribution Statistics</div>
+                    <div className="mt-1 flex flex-wrap gap-2 text-[11px]">
+                      <a href="https://wa.me/6282226085451" target="_blank" rel="noopener noreferrer" className="text-emerald-700 font-bold hover:underline flex items-center gap-1">
+                        <Phone className="w-3 h-3" /> +62 822 2608 5451
+                      </a>
+                      <a href="mailto:angie.almira@bps.go.id" className="text-orange-600 hover:underline flex items-center gap-1">
+                        <Mail className="w-3 h-3" /> angie.almira@bps.go.id
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Clara Lusiana Pangaribuan */}
+                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="font-bold text-[#0B1E43]">Ms. Clara Lusiana Pangaribuan</div>
+                    <div className="text-[10px] text-slate-500">Junior Public Relations Officer, Bureau of Planning & Cooperation</div>
+                    <div className="mt-1 flex flex-wrap gap-2 text-[11px]">
+                      <a href="https://wa.me/6285321151797" target="_blank" rel="noopener noreferrer" className="text-emerald-700 font-bold hover:underline flex items-center gap-1">
+                        <Phone className="w-3 h-3" /> +62 853 2115 1797
+                      </a>
+                      <a href="mailto:clara.lusiana@bps.go.id" className="text-orange-600 hover:underline flex items-center gap-1">
+                        <Mail className="w-3 h-3" /> clara.lusiana@bps.go.id
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-100 text-[11px] text-emerald-800 flex items-center gap-2">
+                <Wifi className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                <span>Complimentary high-speed Wi-Fi is available in the plenary room.</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1122,10 +1733,7 @@ export default function BimpEagaLandingPage() {
               Explore Jakarta
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Discover cultural heritage and landmarks of Indonesia&apos;s capital during your stay.
-            </p>
-            <p className="text-slate-400 text-xs italic mt-0.5">
-              Jelajahi warisan budaya dan landmark ibu kota Indonesia selama kunjungan Anda.
+              Discover cultural heritage, architecture, and landmarks of Indonesia&apos;s capital during your stay.
             </p>
           </div>
 
@@ -1164,11 +1772,8 @@ export default function BimpEagaLandingPage() {
                     <h3 className="text-base font-bold text-[#0B1E43] group-hover:text-orange-500 transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      {item.en}
-                    </p>
-                    <p className="text-[11px] text-slate-400 italic">
-                      {item.id}
+                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                      {item.desc}
                     </p>
                   </div>
                   <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
@@ -1177,11 +1782,10 @@ export default function BimpEagaLandingPage() {
                       {item.distance}
                     </span>
                     <div className="flex items-center gap-2">
-                      {/* QR Code button */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          openQr(item.title, item.en, item.mapUrl);
+                          openQr(item.title, item.desc, item.mapUrl);
                         }}
                         className="p-1.5 rounded-full bg-slate-100 text-slate-500 hover:bg-orange-50 hover:text-orange-600 transition-colors"
                         title={`QR Code: ${item.title}`}
@@ -1218,10 +1822,7 @@ export default function BimpEagaLandingPage() {
               A Taste of Jakarta
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Experience authentic local delicacies and renowned culinary traditions.
-            </p>
-            <p className="text-slate-400 text-xs italic mt-0.5">
-              Rasakan kelezatan kuliner lokal autentik khas Jakarta.
+              Experience authentic local delicacies and renowned culinary traditions during your visit.
             </p>
           </div>
 
@@ -1243,546 +1844,12 @@ export default function BimpEagaLandingPage() {
                   <h4 className="text-xs sm:text-sm font-bold text-[#0B1E43] group-hover:text-orange-500 transition-colors truncate">
                     {food.name}
                   </h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">
-                    {food.en}
-                  </p>
-                  <p className="text-[10px] text-slate-400 italic line-clamp-1">
-                    {food.id}
+                  <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2 leading-snug">
+                    {food.desc}
                   </p>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ──────────────────────────────────────────────────────────
-          MEETING VENUE — UNDP (Primary) + BPS (Secondary)
-          ────────────────────────────────────────────────────────── */}
-      <section
-        id="venue"
-        className="relative bg-gradient-to-br from-[#061130] via-[#0B1E43] to-[#0F2A66] text-white py-12 lg:py-16 overflow-hidden"
-      >
-        <div className="absolute top-0 right-[10%] w-[350px] h-[350px] bg-orange-500/[0.06] rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 left-[15%] w-[300px] h-[300px] bg-sky-400/[0.04] rounded-full blur-[80px] pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-8">
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-orange-400 mb-1">
-              <Building2 className="w-3.5 h-3.5" /> Official Locations & Venue Profile / Lokasi & Profil Venue
-            </span>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight">
-              Meeting Venue: Menara Thamrin & Host Organization
-            </h2>
-            <p className="text-xs text-slate-300 mt-1.5 max-w-lg mx-auto">
-              United Nations Development Programme (UNDP) Lantai 9 &bull; Badan Pusat Statistik RI
-            </p>
-            <p className="text-[11px] text-slate-400 italic mt-0.5">
-              Profil resmi venue lokakarya di Menara Thamrin dan kantor pusat tuan rumah BPS RI.
-            </p>
-          </div>
-
-          {/* ──────────────────────────────────────────────────────────
-              VENUE SPOTLIGHT & INTRODUCTION: MENARA THAMRIN (LANTAI 9)
-              ────────────────────────────────────────────────────────── */}
-          <div className="bg-white/[0.05] backdrop-blur-xl border border-white/[0.12] rounded-3xl p-5 sm:p-7 lg:p-8 mb-10 shadow-2xl">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-
-              {/* Kolom Kiri: Visual & Gallery Showcase */}
-              <div className="lg:col-span-5 space-y-3">
-                {/* Main Active Image Display */}
-                <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-xl bg-slate-900 aspect-[4/3] sm:aspect-[16/11]">
-                  <img
-                    src={venueGallery[activeVenueImg].src}
-                    alt={venueGallery[activeVenueImg].title}
-                    className="w-full h-full object-cover transition-all duration-500 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#061130] via-transparent to-transparent opacity-85 pointer-events-none" />
-
-                  {/* Badge atas */}
-                  <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-md">
-                      <Sparkles className="w-3 h-3" /> {venueGallery[activeVenueImg].badge}
-                    </span>
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md text-white/90 text-[10px] font-semibold border border-white/10">
-                      Menara Thamrin &bull; Lantai 9
-                    </span>
-                  </div>
-
-                  {/* Caption bawah */}
-                  <div className="absolute bottom-3 inset-x-3 p-3 rounded-xl bg-slate-950/70 backdrop-blur-md border border-white/15 flex items-center justify-between">
-                    <div className="min-w-0 pr-2">
-                      <h4 className="text-xs sm:text-sm font-bold text-white truncate">
-                        {venueGallery[activeVenueImg].title}
-                      </h4>
-                      <p className="text-[11px] text-slate-300 truncate">
-                        {venueGallery[activeVenueImg].caption}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => openQr("UNDP Indonesia — Menara Thamrin", "Lantai 9, Jl. M.H. Thamrin Kav 3", UNDP_MAP_URL)}
-                      className="p-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors shadow-sm flex-shrink-0"
-                      title="Scan QR Lokasi Menara Thamrin"
-                    >
-                      <QrCode className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Gallery Thumbnails */}
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
-                      Fasilitas & Venue Gallery:
-                    </span>
-                    <span className="text-[10px] text-slate-400">
-                      Klik foto untuk preview
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-5 gap-1.5">
-                    {venueGallery.map((item, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setActiveVenueImg(idx)}
-                        className={`group relative rounded-xl overflow-hidden aspect-[4/3] border transition-all duration-200 ${
-                          activeVenueImg === idx
-                            ? "ring-2 ring-orange-400 border-orange-400 scale-[1.03] shadow-md shadow-orange-500/30"
-                            : "border-white/15 opacity-70 hover:opacity-100 hover:border-white/30"
-                        }`}
-                        title={item.title}
-                      >
-                        <img
-                          src={item.src}
-                          alt={item.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
-                        <span className="absolute bottom-0 inset-x-0 text-[8px] font-bold text-white bg-black/75 p-0.5 truncate text-center">
-                          {item.badge}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* ── Floor Directory & Venue Quick Guide (Mengisi ruang kosong di bawah thumbnail) ── */}
-                <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/[0.08] space-y-3 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                      <Building2 className="w-3.5 h-3.5 text-orange-400" />
-                      Direktori Lantai & Panduan Fasilitas
-                    </span>
-                    <span className="text-[10px] text-orange-300 font-semibold bg-orange-500/10 px-2.5 py-0.5 rounded-full border border-orange-400/20">
-                      Menara Thamrin
-                    </span>
-                  </div>
-
-                  {/* Floor directory list */}
-                  <div className="grid grid-cols-1 gap-1.5 text-xs">
-                    <div
-                      onClick={() => setActiveVenueImg(1)}
-                      className="cursor-pointer flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.08] hover:border-orange-400/40 transition-all"
-                      title="Klik untuk lihat foto Workshop & Plenary Hall Lantai 9"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-md bg-orange-500 text-white font-black text-[10px]">
-                          Lt. 9
-                        </span>
-                        <div>
-                          <span className="font-semibold text-white block leading-tight">Workshop & Plenary Hall</span>
-                          <span className="text-[10px] text-slate-300 italic">Ruang pertemuan utama delegasi (UNDP)</span>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded-md">Venue Utama</span>
-                    </div>
-
-                    <div
-                      onClick={() => setActiveVenueImg(7)}
-                      className="cursor-pointer flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.08] hover:border-sky-400/40 transition-all"
-                      title="Klik untuk lihat fasilitas Lantai LG"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-md bg-sky-500/30 text-sky-300 border border-sky-400/30 font-black text-[10px]">
-                          Lt. LG
-                        </span>
-                        <div>
-                          <span className="font-semibold text-white block leading-tight">Kantin, Indomaret & Money Changer</span>
-                          <span className="text-[10px] text-slate-400 italic">Pujasera, minimarket & penukaran valas</span>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-sky-300 bg-sky-500/10 px-2 py-0.5 rounded-md">Fasilitas</span>
-                    </div>
-
-                    <div
-                      onClick={() => setActiveVenueImg(5)}
-                      className="cursor-pointer flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.08] hover:border-emerald-400/40 transition-all"
-                      title="Klik untuk lihat foto Mushola Basement"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-md bg-emerald-500/30 text-emerald-300 border border-emerald-400/30 font-black text-[10px]">
-                          Lt. B
-                        </span>
-                        <div>
-                          <span className="font-semibold text-white block leading-tight">Mushola (Prayer Room)</span>
-                          <span className="text-[10px] text-slate-400 italic">Tempat ibadah & wudhu di lantai basement</span>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded-md">Ibadah</span>
-                    </div>
-
-                    <div
-                      onClick={() => setActiveVenueImg(4)}
-                      className="cursor-pointer flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.08] hover:border-amber-400/40 transition-all"
-                      title="Klik untuk lihat foto Smoking Area Outdoor"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-md bg-amber-500/30 text-amber-300 border border-amber-400/30 font-black text-[10px]">
-                          Outdoor
-                        </span>
-                        <div>
-                          <span className="font-semibold text-white block leading-tight">Smoking Area (Area Merokok)</span>
-                          <span className="text-[10px] text-slate-400 italic">Area terbuka di bagian belakang gedung</span>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-md">Outdoor</span>
-                    </div>
-                  </div>
-
-                  {/* Access Protocol Note */}
-                  <div className="p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20 text-[11px] text-orange-200 flex items-start gap-2">
-                    <Info className="w-3.5 h-3.5 text-orange-400 flex-shrink-0 mt-0.5" />
-                    <p className="leading-snug">
-                      <strong className="text-white">Akses Gedung:</strong> Registrasi & pengambilan tanda pengenal (ID Badge) delegasi di lobi utama (Ground Floor) untuk akses elevator menuju Lantai 9.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Kolom Kanan: Teks Pengenalan Venue & Informasi Lengkap */}
-              <div className="lg:col-span-7 space-y-4 text-left">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-400 text-[10px] font-bold uppercase tracking-wider mb-2">
-                    <Building2 className="w-3 h-3" />
-                    <span>Official Venue Spotlight &bull; Lantai 7–9</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                    Venue: Menara Thamrin, Jakarta, Indonesia
-                  </h3>
-                  <p className="text-xs text-orange-300 font-semibold mt-0.5">
-                    United Nations Development Programme (UNDP) Indonesia Country Office
-                  </p>
-                </div>
-
-                {/* English Description */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-300 border border-orange-400/20">
-                      English
-                    </span>
-                    <span className="text-[11px] font-semibold text-slate-300">Official Venue Profile</span>
-                  </div>
-                  <p className="text-xs sm:text-[13px] text-slate-200 leading-relaxed">
-                    Located in the heart of Central Jakarta, Menara Thamrin is a prominent office building situated along Jalan M.H. Thamrin, one of the city&apos;s key business districts. The building houses the United Nations Development Programme (UNDP) Indonesia Country Office on its 7th to 9th floors.
-                  </p>
-                  <p className="text-xs sm:text-[13px] text-slate-200 leading-relaxed">
-                    With its central Jakarta location, Menara Thamrin provides a distinguished setting for international meetings, professional exchanges, and collaborative discussions. It will serve as the venue for the UNSD Workshop on International Merchandise Trade Statistics (IMTS 2026) and Statistics of International Trade in Services (SITS 2026), bringing together participants to share knowledge, exchange experiences, and strengthen cooperation in international trade statistics.
-                  </p>
-                </div>
-
-                {/* Indonesian Description */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 border border-sky-400/20">
-                      Bahasa Indonesia
-                    </span>
-                    <span className="text-[11px] font-semibold text-slate-300">Profil Resmi Tempat Pertemuan</span>
-                  </div>
-                  <p className="text-xs sm:text-[12.5px] text-slate-300 italic leading-relaxed">
-                    Menara Thamrin merupakan gedung perkantoran yang berlokasi di kawasan strategis Jalan M.H. Thamrin, Jakarta Pusat, salah satu kawasan bisnis utama di ibu kota. Gedung ini menjadi lokasi kantor United Nations Development Programme (UNDP) Indonesia Country Office yang menempati lantai 7 hingga 9.
-                  </p>
-                  <p className="text-xs sm:text-[12.5px] text-slate-300 italic leading-relaxed">
-                    Dengan lokasinya di pusat Jakarta, Menara Thamrin menjadi tempat yang representatif untuk mendukung kegiatan pertemuan profesional, pertukaran pengetahuan, dan diskusi kolaboratif. Venue ini akan menjadi tempat penyelenggaraan UNSD Workshop on International Merchandise Trade Statistics (IMTS 2026) and Statistics of International Trade in Services (SITS 2026), yang mempertemukan para peserta untuk berbagi wawasan, bertukar pengalaman, dan memperkuat kerja sama di bidang statistik perdagangan internasional.
-                  </p>
-                </div>
-
-                {/* Strategic Highlights & Sources */}
-                <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-400 border-t border-white/10">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1 bg-white/[0.06] px-2.5 py-1 rounded-md text-slate-300">
-                      <MapPin className="w-3 h-3 text-orange-400" /> Jl. M.H. Thamrin Kav 3, Jakarta Pusat
-                    </span>
-                    <span className="inline-flex items-center gap-1 bg-white/[0.06] px-2.5 py-1 rounded-md text-slate-300">
-                      <Users className="w-3 h-3 text-sky-400" /> Lantai 7–9 (UNDP Country Office)
-                    </span>
-                  </div>
-
-                  <a
-                    href="https://www.undp.org/indonesia"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-orange-400 hover:text-orange-300 font-semibold transition-colors"
-                  >
-                    <span>Source: UNDP Indonesia Directory</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* ───── BUILDING AMENITIES & FACILITIES NOTES (CATATAN FASILITAS PENDUKUNG) ───── */}
-            <div className="mt-8 pt-6 border-t border-white/10">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                <div className="flex items-center gap-2.5">
-                  <span className="p-2 rounded-xl bg-orange-500/20 border border-orange-400/30 text-orange-400">
-                    <Sparkles className="w-4 h-4" />
-                  </span>
-                  <div>
-                    <h4 className="text-sm sm:text-base font-extrabold text-white flex flex-wrap items-center gap-2">
-                      Building Amenities & Facilities Notes
-                      <span className="text-xs font-normal text-orange-300 italic">/ Catatan Fasilitas Menara Thamrin</span>
-                    </h4>
-                    <p className="text-[11px] text-slate-300">
-                      Essential spots and support services for delegates during the workshop at Menara Thamrin
-                    </p>
-                  </div>
-                </div>
-                <span className="inline-flex items-center gap-1 text-[10px] text-slate-300 bg-white/10 border border-white/10 px-3 py-1 rounded-full w-fit">
-                  <Sparkles className="w-3 h-3 text-orange-400" />
-                  Klik kartu untuk preview foto di layar utama
-                </span>
-              </div>
-
-              {/* 5 Amenity Cards Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-                {venueAmenities.map((amenity) => (
-                  <div
-                    key={amenity.id}
-                    onClick={() => {
-                      setActiveVenueImg(amenity.galleryIndex);
-                      const venueEl = document.getElementById("venue");
-                      if (venueEl) {
-                        venueEl.scrollIntoView({ behavior: "smooth" });
-                      }
-                    }}
-                    className={`group cursor-pointer rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.03] hover:from-white/[0.12] hover:to-white/[0.06] border transition-all duration-300 p-3.5 flex flex-col justify-between hover:scale-[1.02] hover:shadow-xl ${
-                      activeVenueImg === amenity.galleryIndex
-                        ? "border-orange-400 ring-2 ring-orange-400/50 shadow-lg shadow-orange-500/20"
-                        : "border-white/10 hover:border-white/25"
-                    }`}
-                  >
-                    <div>
-                      {/* Image Thumbnail */}
-                      <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-2.5 bg-slate-900 border border-white/10">
-                        <img
-                          src={amenity.img}
-                          alt={amenity.nameEn}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <span className={`absolute top-2 left-2 text-[9px] font-black uppercase px-2 py-0.5 rounded-full border shadow-sm backdrop-blur-md ${amenity.badgeColor}`}>
-                          {amenity.floorBadge}
-                        </span>
-                      </div>
-
-                      {/* Header Titles */}
-                      <h5 className="text-xs sm:text-[13px] font-bold text-white group-hover:text-orange-400 transition-colors leading-snug">
-                        {amenity.nameEn}
-                      </h5>
-                      <span className="text-[10px] text-slate-400 italic block mb-2">
-                        {amenity.nameId}
-                      </span>
-
-                      {/* Notes: English & Indonesia */}
-                      <div className="space-y-1.5 p-2 rounded-xl bg-white/[0.04] border border-white/[0.06]">
-                        <div className="text-[11px] text-slate-200 font-medium leading-snug">
-                          <strong className="text-orange-300 font-bold block mb-0.5">English:</strong>
-                          {amenity.descEn}
-                        </div>
-                        <div className="text-[10px] text-slate-300 italic leading-snug pt-1 border-t border-white/10">
-                          <strong className="text-sky-300 font-bold not-italic block mb-0.5">Indonesia:</strong>
-                          {amenity.descId}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-slate-400 group-hover:text-orange-300 transition-colors">
-                      <span className="font-semibold">Preview Foto</span>
-                      <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Symmetrical Location Navigation Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-
-            {/* ───── CARD 1: UNDP (Meeting Venue) ───── */}
-            <div className="group rounded-2xl overflow-hidden bg-gradient-to-b from-[#0E275A] to-[#071638] border-2 border-orange-500/50 shadow-xl shadow-orange-500/10 flex flex-col justify-between transition-all duration-300 hover:border-orange-400">
-              <div>
-                {/* Header Tag */}
-                <div className="flex items-center justify-between bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2.5">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-block w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span className="text-[11px] font-black uppercase tracking-widest text-white">
-                      Meeting Venue &bull; 7–11 Des 2026
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-extrabold text-white/95 uppercase tracking-wider bg-black/25 px-2.5 py-0.5 rounded-full">
-                    Primary Location
-                  </span>
-                </div>
-
-                {/* Image */}
-                <a
-                  href={UNDP_MAP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative h-52 sm:h-60 w-full overflow-hidden block bg-slate-900 cursor-pointer"
-                >
-                  <img
-                    src="/assets/gedungTamrin.jpg"
-                    alt="United Nations Development Programme (UNDP) Menara Thamrin"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071638] via-transparent to-transparent opacity-80" />
-                  <div className="absolute inset-0 bg-[#0B1E43]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold text-xs shadow-xl">
-                      <MapPinned className="w-4 h-4" /> Buka di Google Maps <ExternalLink className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </a>
-
-                {/* Content */}
-                <div className="p-5 sm:p-6 space-y-2">
-                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-orange-400 transition-colors">
-                    United Nations Development Programme (UNDP)
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    Menara Thamrin, Lantai 9, Jl. M.H. Thamrin Kav 3, Jakarta Pusat
-                  </p>
-                  <p className="text-[11px] text-slate-400 italic">
-                    Lokasi resmi seluruh sesi pertemuan lokakarya selama 5 hari kerja
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="p-5 sm:p-6 pt-0">
-                <div className="pt-3 border-t border-white/10 flex items-center gap-2.5">
-                  <a
-                    href={UNDP_MAP_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold shadow-md hover:scale-[1.02] transition-transform"
-                  >
-                    <Navigation className="w-3.5 h-3.5" />
-                    <span>Google Maps</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
-                  <button
-                    onClick={() => openQr("UNDP — Meeting Venue", "Menara Thamrin, Lantai 9, Jakarta Pusat", UNDP_MAP_URL)}
-                    className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-white/[0.12] border border-white/[0.20] text-white text-xs font-bold hover:bg-white/[0.20] transition-colors"
-                    title="Scan QR Code UNDP"
-                  >
-                    <QrCode className="w-3.5 h-3.5 text-orange-400" />
-                    <span>Scan QR</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* ───── CARD 2: BPS RI (Host Organization HQ) ───── */}
-            <div className="group rounded-2xl overflow-hidden bg-gradient-to-b from-[#0E275A] to-[#071638] border border-white/15 shadow-xl flex flex-col justify-between transition-all duration-300 hover:border-sky-400/60">
-              <div>
-                {/* Header Tag */}
-                <div className="flex items-center justify-between bg-gradient-to-r from-[#0B1E43] to-[#153470] px-4 py-2.5 border-b border-white/10">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="w-3.5 h-3.5 text-sky-400" />
-                    <span className="text-[11px] font-black uppercase tracking-widest text-white">
-                      Host Organization HQ
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-extrabold text-sky-200 uppercase tracking-wider bg-white/10 px-2.5 py-0.5 rounded-full">
-                    Kantor Pusat
-                  </span>
-                </div>
-
-                {/* Image */}
-                <a
-                  href={BPS_MAP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative h-52 sm:h-60 w-full overflow-hidden block bg-slate-900 cursor-pointer"
-                >
-                  <img
-                    src="/assets/gedungBPS.jpg"
-                    alt="Badan Pusat Statistik (BPS RI) Headquarters"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071638] via-transparent to-transparent opacity-80" />
-                  <div className="absolute inset-0 bg-[#0B1E43]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-md text-white font-bold text-xs shadow-xl border border-white/20">
-                      <MapPinned className="w-4 h-4" /> Buka di Google Maps <ExternalLink className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </a>
-
-                {/* Content */}
-                <div className="p-5 sm:p-6 space-y-2">
-                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-sky-400 transition-colors">
-                    Badan Pusat Statistik (BPS RI)
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    Jl. Dr. Sutomo No. 6-8, Pasar Baru, Jakarta Pusat 10710
-                  </p>
-                  <p className="text-[11px] text-slate-400 italic">
-                    Kantor pusat institusi tuan rumah dan panitia penyelenggara
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="p-5 sm:p-6 pt-0">
-                <div className="pt-3 border-t border-white/10 flex items-center gap-2.5">
-                  <a
-                    href={BPS_MAP_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-white/[0.14] border border-white/[0.20] text-white text-xs font-bold hover:bg-white/[0.22] hover:scale-[1.02] transition-all"
-                  >
-                    <Navigation className="w-3.5 h-3.5 text-sky-400" />
-                    <span>Google Maps</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
-                  <button
-                    onClick={() => openQr("BPS-Statistics Indonesia", "Jl. Dr. Sutomo No. 6-8, Jakarta Pusat", BPS_MAP_URL)}
-                    className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-white/[0.08] border border-white/[0.12] text-slate-300 text-xs font-bold hover:text-white hover:bg-white/[0.15] transition-colors"
-                    title="Scan QR Code BPS"
-                  >
-                    <QrCode className="w-3.5 h-3.5 text-sky-400" />
-                    <span>Scan QR</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Legend / Clarification */}
-          <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 bg-white/[0.05] backdrop-blur-md border border-white/[0.08] rounded-xl px-4 py-3">
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-3 h-3 rounded bg-orange-500 flex-shrink-0" />
-              <span className="text-[11px] text-slate-200">
-                <strong className="text-orange-400">Meeting Venue:</strong> All sessions held at UNDP Indonesia, Lantai 9
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-3 h-3 rounded bg-sky-500/60 flex-shrink-0" />
-              <span className="text-[11px] text-slate-200">
-                <strong className="text-sky-400">Host Organization:</strong> BPS-Statistics Indonesia (Penyelenggara)
-              </span>
-            </div>
           </div>
         </div>
       </section>
@@ -1793,50 +1860,85 @@ export default function BimpEagaLandingPage() {
       <footer className="bg-[#050D1F] text-white pt-10 pb-6 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-white/[0.08]">
-            <div className="md:col-span-4 space-y-3">
-              <img
-                src="/assets/logo.jpeg"
-                onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
-                alt="United Nations Statistics Division (UNSD) Logo"
-                className="h-9 w-auto object-contain bg-white/95 p-1.5 rounded-lg max-w-[220px]"
-              />
-              <h3 className="text-sm font-bold text-white">
-                UNSD Workshop on IMTS 2026 & SITS 2026
+            <div className="md:col-span-5 space-y-3">
+              {/* Joint Organizers Logos: UNSD + BPS-Statistics Indonesia */}
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <div className="bg-white/95 p-1.5 rounded-lg flex items-center shadow-sm">
+                  <img
+                    src="/assets/logo.jpeg"
+                    onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
+                    alt="United Nations Statistics Division (UNSD) Logo"
+                    className="h-8 sm:h-9 w-auto object-contain max-w-[160px]"
+                  />
+                </div>
+                <div className="h-6 w-px bg-white/20 hidden sm:block" aria-hidden="true" />
+                <a
+                  href="https://www.bps.go.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/95 p-1.5 rounded-lg flex items-center gap-1.5 px-2.5 shadow-sm hover:bg-white transition-colors"
+                  title="BPS-Statistics Indonesia"
+                >
+                  <img
+                    src="/assets/LogoBPS.svg"
+                    alt="BPS-Statistics Indonesia Logo"
+                    className="h-7 sm:h-8 w-auto object-contain"
+                  />
+                  <div className="flex flex-col text-left leading-none">
+                    <span className="text-[11px] font-black text-[#0B1E43] tracking-wider uppercase">
+                      BPS-Statistics Indonesia
+                    </span>
+                    <span className="text-[8px] font-bold text-orange-600 uppercase tracking-widest mt-0.5">
+                      Host Country
+                    </span>
+                  </div>
+                </a>
+              </div>
+
+              <h3 className="text-sm font-bold text-white pt-1">
+                Workshop on IMTS 2026 & MSITS 2026
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-                United Nations Statistics Division (UNSD) international trade statistics workshop hosted by BPS-Statistics Indonesia.
-              </p>
-              <p className="text-[11px] text-slate-500 italic">
-                Lokakarya statistik perdagangan internasional diselenggarakan bersama BPS-Statistics Indonesia.
+                United Nations Statistics Division (UNSD) workshop on International Merchandise Trade Statistics and Manual on Statistics of International Trade in Services, proudly hosted by BPS-Statistics Indonesia.
               </p>
             </div>
 
             <div className="md:col-span-4 space-y-2">
               <span className="text-xs uppercase font-bold tracking-wider text-orange-400 block">
-                Meeting Venue / Lokasi Pertemuan
+                Meeting Venue & Secretariat
               </span>
               <p className="text-xs text-slate-300 leading-relaxed">
                 United Nations Development Programme (UNDP)
                 <br />
-                Menara Thamrin, Lantai 9
+                Menara Thamrin, 9th Floor
                 <br />
-                Jl. M.H. Thamrin Kav 3, Jakarta Pusat, Indonesia
+                Jl. M.H. Thamrin Kav 3, Central Jakarta 10250, Indonesia
               </p>
               <div className="pt-1">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-sky-400 block mt-2">
-                  Host Organization / Tuan Rumah
+                  Host Organization Headquarters
                 </span>
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  BPS-Statistics Indonesia, Jl. Dr. Sutomo No. 6-8, Jakarta Pusat 10710
+                  BPS-Statistics Indonesia, Jl. Dr. Sutomo No. 6-8, Central Jakarta 10710
                 </p>
               </div>
             </div>
 
-            <div className="md:col-span-4 space-y-2">
+            <div className="md:col-span-3 space-y-2">
               <span className="text-xs uppercase font-bold tracking-wider text-orange-400 block">
-                Quick Links
+                Delegate Quick Links
               </span>
               <ul className="text-xs space-y-1.5 text-slate-400">
+                <li>
+                  <a
+                    href={REGISTRATION_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-orange-400 font-bold hover:underline inline-flex items-center gap-1"
+                  >
+                    <UserCheck className="w-3 h-3" /> Registration Form
+                  </a>
+                </li>
                 <li>
                   <a
                     href={UNDP_MAP_URL}
@@ -1849,26 +1951,26 @@ export default function BimpEagaLandingPage() {
                 </li>
                 <li>
                   <a
-                    href={BPS_MAP_URL}
+                    href="https://evisa.imigrasi.go.id/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                   >
-                    <ExternalLink className="w-3 h-3 text-sky-400" /> BPS HQ Maps
+                    <ExternalLink className="w-3 h-3 text-sky-400" /> Indonesia e-Visa Portal
                   </a>
                 </li>
-                <li><a href="#overview" className="hover:text-orange-400 transition-colors">Overview / Ikhtisar</a></li>
-                <li><a href="#resources" className="hover:text-orange-400 transition-colors">Resources / Materi</a></li>
-                <li><a href="#hotels" className="hover:text-orange-400 transition-colors">Hotels / Akomodasi</a></li>
-                <li><a href="#explorejakarta" className="hover:text-orange-400 transition-colors">Explore Jakarta</a></li>
+                <li><a href="#overview" className="hover:text-orange-400 transition-colors">Overview</a></li>
+                <li><a href="#resources" className="hover:text-orange-400 transition-colors">Resources & Files</a></li>
+                <li><a href="#hotels" className="hover:text-orange-400 transition-colors">Accommodations</a></li>
                 <li><a href="#venue" className="hover:text-orange-400 transition-colors">Venue & Amenities</a></li>
+                <li><a href="#logistics" className="hover:text-orange-400 transition-colors">Logistics & Contacts</a></li>
               </ul>
             </div>
           </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
-            <p>&copy; 2026 UNSD Workshop on IMTS & SITS. Hosted by BPS-Statistics Indonesia & United Nations Statistics Division.</p>
-            <p>IMTS 2026 &bull; SITS 2026 &bull; Jakarta, Indonesia</p>
+            <p>&copy; 2026 UNSD Workshop on IMTS 2026 & MSITS 2026. Hosted by BPS-Statistics Indonesia & United Nations Statistics Division.</p>
+            <p>Jakarta, Indonesia &bull; 7 – 11 December 2026</p>
           </div>
         </div>
       </footer>
@@ -1882,7 +1984,7 @@ export default function BimpEagaLandingPage() {
           onClick={() => setQrModal(null)}
         >
           <div
-            className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative text-center"
+            className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1892,60 +1994,55 @@ export default function BimpEagaLandingPage() {
               <X className="w-4 h-4" />
             </button>
 
-            <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center mx-auto mb-3">
+            <div className="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-orange-50 text-orange-600 mb-3">
               <QrCode className="w-5 h-5" />
             </div>
 
-            <h3 className="text-base font-bold text-[#0B1E43]">
+            <h3 className="text-base font-extrabold text-[#0B1E43] leading-snug">
               {qrModal.title}
             </h3>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 mt-1 mb-4">
               {qrModal.subtitle}
             </p>
-            <p className="text-[11px] text-slate-400 italic mt-0.5">
-              Arahkan kamera smartphone Anda untuk membuka lokasi di Google Maps
-            </p>
 
-            {/* QR Code */}
-            <div className="my-4 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center justify-center">
+            {/* QR Image Container */}
+            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 inline-block mb-4 shadow-inner">
               <img
-                src={qrUrl(qrModal.url)}
-                alt={`QR Code ${qrModal.title}`}
-                className="w-44 h-44 rounded-lg bg-white p-2 shadow-inner"
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(
+                  qrModal.url
+                )}&margin=2`}
+                alt={`QR Code for ${qrModal.title}`}
+                className="w-48 h-48 rounded-xl bg-white p-1"
               />
-              <span className="text-[10px] text-slate-500 mt-2 font-mono break-all max-w-[220px]">
-                {qrModal.url.replace(/^https?:\/\//, "").substring(0, 45)}
+              <span className="text-[10px] text-slate-400 block mt-1.5">
+                Scan with smartphone camera to open Google Maps
               </span>
             </div>
 
-            {/* Actions */}
-            <div className="space-y-2 pt-1">
+            <div className="space-y-2">
               <a
                 href={qrModal.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-4 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold hover:scale-[1.02] transition-transform shadow-md"
+                className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold text-xs hover:scale-[1.02] transition-transform shadow-md"
               >
-                <span>Buka di Google Maps</span>
-                <ExternalLink className="w-3 h-3" />
+                <MapPinned className="w-3.5 h-3.5" />
+                <span>Open in Google Maps</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
 
-              <button
-                onClick={() => handleCopyLink(qrModal.url)}
-                className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-4 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition-colors"
+              <a
+                href={`https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=${encodeURIComponent(
+                  qrModal.url
+                )}&margin=2`}
+                download={`${qrModal.title.replace(/[^a-zA-Z0-9]/g, "-")}-QR.png`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors"
               >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
-                    <span className="text-emerald-600 font-bold">Link Berhasil Disalin!</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="w-3 h-3 text-slate-500" />
-                    <span>Salin Tautan Lokasi</span>
-                  </>
-                )}
-              </button>
+                <Download className="w-3.5 h-3.5" />
+                <span>Download QR Code Image</span>
+              </a>
             </div>
           </div>
         </div>
@@ -1956,56 +2053,49 @@ export default function BimpEagaLandingPage() {
           ────────────────────────────────────────────────────────── */}
       {hotelModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm"
           onClick={() => setHotelModal(null)}
         >
           <div
-            className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-100 relative text-center max-h-[92vh] overflow-y-auto"
+            className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative text-center animate-in fade-in zoom-in-95 duration-150"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={() => setHotelModal(null)}
-              className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-              aria-label="Close modal"
+              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
 
-            {/* Badge & Label */}
-            <div className="flex flex-col items-center">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-orange-100 text-orange-700 border border-orange-200 mb-2 shadow-sm">
-                <Navigation className="w-3 h-3 text-orange-600" />
-                SCAN FOR DIRECTIONS
-              </span>
-              <span className={`inline-block ${hotelModal.tagStyle} text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full mb-2`}>
+            {/* Badge Category & Distance */}
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <span
+                className={`text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${hotelModal.tagStyle}`}
+              >
                 {hotelModal.tag}
               </span>
+              <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">
+                {hotelModal.distance} from Venue
+              </span>
             </div>
 
-            {/* Hotel Name & Address */}
-            <h3 className="text-lg sm:text-xl font-extrabold text-[#0B1E43] leading-snug">
+            <h3 className="text-base font-extrabold text-[#0B1E43] leading-snug">
               {hotelModal.name}
             </h3>
-            <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto flex items-start justify-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
-              <span>{hotelModal.address}</span>
+            <p className="text-[11px] text-slate-500 mt-1 mb-3">
+              {hotelModal.address}
             </p>
 
-            {/* Route Summary Pill */}
-            <div className="mt-3 inline-flex flex-wrap items-center justify-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-600">
-              <span className="font-semibold text-[#0B1E43]">{hotelModal.distance} from UNDP</span>
-              <span className="text-slate-300">&bull;</span>
-              <span className="flex items-center gap-1"><Footprints className="w-3 h-3 text-orange-500" /> {hotelModal.walkTime}</span>
-              <span className="text-slate-300">&bull;</span>
-              <span className="flex items-center gap-1"><Car className="w-3 h-3 text-orange-500" /> {hotelModal.carTime}</span>
-            </div>
-
-            {/* QR Code Container (Crisp Black on White with quiet zone) */}
-            <div className="my-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col items-center justify-center max-w-[260px] mx-auto">
+            {/* QR Code Container */}
+            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 inline-flex flex-col items-center mb-3 shadow-inner">
               <img
-                src={hotelQrUrls[hotelModal.id] || qrUrl(hotelModal.directionsUrl)}
-                alt={`Google Maps Walking Directions to ${hotelModal.name}`}
+                src={
+                  hotelQrUrls[hotelModal.id] ||
+                  `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(
+                    hotelModal.directionsUrl
+                  )}&margin=2`
+                }
+                alt={`Walking Directions QR Code for ${hotelModal.name}`}
                 className="w-48 h-48 rounded-lg bg-white p-1"
               />
               <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider mt-2">
@@ -2017,15 +2107,26 @@ export default function BimpEagaLandingPage() {
             </div>
 
             {/* Price reference */}
-            <div className="mb-4 py-2 px-3 rounded-xl bg-orange-50/70 border border-orange-100 text-xs">
+            <div className="mb-3 py-2 px-3 rounded-xl bg-orange-50/70 border border-orange-100 text-xs">
               <span className="text-slate-500 font-medium">Estimated Rate: </span>
               <strong className="text-orange-700 font-bold">{hotelModal.priceRange}</strong>
               <span className="text-[10px] text-slate-400 block mt-0.5">
-                {hotelModal.priceNoteEn} &bull; <span className="italic">{hotelModal.priceNoteId}</span>
+                {hotelModal.priceNoteEn}
               </span>
             </div>
 
-            {/* Action Buttons: View on Google Maps, Get Directions, Download QR Code */}
+            {/* Hotel Contact if available */}
+            {hotelModal.contactPerson && (
+              <div className="mb-3 py-1.5 px-3 rounded-xl bg-blue-50/70 border border-blue-100 text-[11px] text-left">
+                <span className="text-slate-500">Contact Person: </span>
+                <strong className="text-[#0B1E43]">{hotelModal.contactPerson}</strong>
+                <a href={`mailto:${hotelModal.contactEmail}`} className="block text-orange-600 hover:underline truncate mt-0.5">
+                  {hotelModal.contactEmail}
+                </a>
+              </div>
+            )}
+
+            {/* Action Buttons */}
             <div className="space-y-2 pt-1 text-xs">
               <a
                 href={hotelModal.directionsUrl}
@@ -2034,7 +2135,7 @@ export default function BimpEagaLandingPage() {
                 className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold hover:scale-[1.02] transition-transform shadow-md"
               >
                 <Navigation className="w-4 h-4" />
-                <span>Get Directions (Buka Rute Jalan Kaki)</span>
+                <span>Get Directions</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
 
@@ -2045,7 +2146,7 @@ export default function BimpEagaLandingPage() {
                 className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#0B1E43] hover:bg-[#153470] text-white font-bold transition-colors shadow-sm"
               >
                 <MapPinned className="w-4 h-4 text-sky-400" />
-                <span>View on Google Maps (Lihat Lokasi)</span>
+                <span>View on Google Maps</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
 
@@ -2063,7 +2164,7 @@ export default function BimpEagaLandingPage() {
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-1.5 py-2 text-slate-500 hover:text-orange-600 font-medium transition-colors text-[11px]"
               >
-                <span>Visit Official Hotel Website / Situs Resmi</span>
+                <span>Visit Official Hotel Website</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
@@ -2096,18 +2197,16 @@ export default function BimpEagaLandingPage() {
                   <Calendar className="w-5 h-5" />
                 </div>
                 <h3 className="text-base font-bold text-[#0B1E43]">Workshop Agenda</h3>
-                <p className="text-[11px] text-slate-400 italic">Jadwal Lokakarya</p>
-                <p className="text-xs text-slate-500 mt-1">7 – 11 Desember 2026 &bull; UNDP Indonesia, Lantai 9</p>
+                <p className="text-xs text-slate-500 mt-1">7 – 11 December 2026 &bull; UNDP Indonesia, 9th Floor</p>
                 <div className="mt-4 space-y-2.5 text-xs text-slate-600">
                   {[
-                    { en: "Day 1: Opening & Plenary IMTS 2026", id: "Hari 1: Pembukaan & Pleno IMTS 2026", desc: "Welcome remarks, ministerial keynote, and IMTS methodology updates." },
-                    { en: "Day 2–3: SITS 2026 & Trade in Services", id: "Hari 2–3: SITS 2026 & Perdagangan Jasa", desc: "Cross-border trade statistics and international database harmonization." },
-                    { en: "Day 4–5: Recommendations & Closing", id: "Hari 4–5: Rekomendasi & Penutupan", desc: "Drafting joint statistics declaration and cultural tour." },
+                    { en: "Day 1 (Monday, 7 Dec): Opening & Plenary IMTS 2026", desc: "Commencing at 9:00 AM. Opening remarks, ministerial keynote, and IMTS 2026 conceptual framework." },
+                    { en: "Day 2–3 (8–9 Dec): MSITS 2026 & Trade in Services", desc: "Statistics of International Trade in Services concepts, data sources, and international database harmonization." },
+                    { en: "Day 4–5 (10–11 Dec): Recommendations & Closing", desc: "Drafting joint statistics declaration, action points, and concluding on Friday afternoon." },
                   ].map((item, i) => (
                     <div key={i} className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                      <span className="font-bold text-[#0B1E43] block">{item.en}</span>
-                      <span className="text-[10px] text-slate-400 italic block mb-1">{item.id}</span>
-                      <span className="text-slate-500 text-[11px] block">{item.desc}</span>
+                      <span className="font-bold text-[#0B1E43] block mb-1">{item.en}</span>
+                      <span className="text-slate-500 text-[11px] block leading-relaxed">{item.desc}</span>
                     </div>
                   ))}
                 </div>
@@ -2119,18 +2218,17 @@ export default function BimpEagaLandingPage() {
                 <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0B1E43] flex items-center justify-center mb-3">
                   <Folder className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-bold text-[#0B1E43]">Session Materials</h3>
-                <p className="text-[11px] text-slate-400 italic">Materi Lokakarya</p>
-                <p className="text-xs text-slate-500 mt-1">Download presentations, guidelines, and manuals.</p>
+                <h3 className="text-base font-bold text-[#0B1E43]">Session Materials & Documents</h3>
+                <p className="text-xs text-slate-500 mt-1">Circulated guidelines, manuals, and presentation decks.</p>
                 <div className="mt-4 space-y-2 text-xs">
-                  {["IMTS 2026 Conceptual Framework.pdf", "SITS 2026 Implementation Guide.pdf", "UNSD Joint Declaration Draft.pdf"].map((file, i) => (
+                  {["IMTS 2026 Concepts and Definitions.pdf", "MSITS 2026 Compilation Guide.pdf", "UNSD Technical Discussion Draft.pdf"].map((file, i) => (
                     <div key={i} className="p-3 rounded-lg bg-slate-50 flex items-center justify-between border border-slate-100">
                       <div className="flex items-center gap-2 min-w-0">
                         <FileText className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
                         <span className="font-medium text-slate-700 truncate text-[11px]">{file}</span>
                       </div>
                       <button className="text-orange-600 font-semibold hover:underline flex items-center gap-1 flex-shrink-0 ml-2 text-[11px]">
-                        <Download className="w-3 h-3" /> Unduh
+                        <Download className="w-3 h-3" /> Download
                       </button>
                     </div>
                   ))}
@@ -2144,7 +2242,7 @@ export default function BimpEagaLandingPage() {
                   <Camera className="w-5 h-5" />
                 </div>
                 <h3 className="text-base font-bold text-[#0B1E43]">Documentation & Moments</h3>
-                <p className="text-[11px] text-slate-400 italic">Dokumentasi & Momen Kegiatan</p>
+                <p className="text-xs text-slate-500 mt-1">Photo highlights from session deliberations and cultural tours.</p>
                 <div className="mt-4 grid grid-cols-2 gap-2.5">
                   {["kantorBPS", "jakartamonas", "masjid", "kotatua"].map((name, i) => (
                     <div key={i} className="rounded-lg overflow-hidden h-24 bg-slate-100">
@@ -2153,7 +2251,7 @@ export default function BimpEagaLandingPage() {
                   ))}
                 </div>
                 <p className="text-[10px] text-slate-400 mt-3 text-center">
-                  Live photo gallery updated continuously &bull; <span className="italic">Diperbarui berkala</span>
+                  Live photo gallery updated continuously throughout the event
                 </p>
               </div>
             )}
@@ -2164,19 +2262,16 @@ export default function BimpEagaLandingPage() {
                   <Award className="w-5 h-5" />
                 </div>
                 <h3 className="text-base font-bold text-[#0B1E43]">Certificate of Attendance</h3>
-                <p className="text-[11px] text-slate-400 italic">Sertifikat Kehadiran Peserta</p>
+                <p className="text-xs text-slate-500 mt-1">Official United Nations Statistics Division & BPS certificate.</p>
                 <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-100 text-center space-y-3">
                   <p className="text-xs text-slate-600">
-                    Certificates will be unlocked for registered delegates following the conclusion of Day 5 sessions.
-                  </p>
-                  <p className="text-[10px] text-slate-400 italic">
-                    Sertifikat tersedia setelah berakhirnya sesi Hari ke-5.
+                    Certificates will be available for all officially registered delegates following the conclusion of Friday sessions.
                   </p>
                   <button
                     onClick={() => setActiveModal(null)}
                     className="inline-flex items-center gap-1 px-4 py-2 rounded-full bg-[#0B1E43] text-white text-xs font-bold hover:bg-[#153470] transition-colors"
                   >
-                    Check Eligibility / Cek Status
+                    Check Eligibility
                   </button>
                 </div>
               </div>
