@@ -383,7 +383,7 @@ export default function BimpEagaLandingPage() {
                 src="/assets/logo.jpeg"
                 onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
                 alt="United Nations Statistics Division (UNSD) Logo"
-                className="h-5 sm:h-6.5 lg:h-7.5 w-auto object-contain max-w-[105px] xs:max-w-[125px] sm:max-w-[175px] lg:max-w-[210px]"
+                className="h-5 sm:h-6 lg:h-7 w-auto object-contain max-w-[105px] xs:max-w-[125px] sm:max-w-[175px] lg:max-w-[210px] flex-shrink-0"
               />
             </a>
 
@@ -401,7 +401,7 @@ export default function BimpEagaLandingPage() {
               <img
                 src="/assets/LogoBPS.svg"
                 alt="BPS-Statistics Indonesia Logo"
-                className="h-5 sm:h-6.5 lg:h-7.5 w-auto object-contain drop-shadow-sm flex-shrink-0"
+                className="h-5 sm:h-6 lg:h-7 w-auto max-h-5 sm:max-h-6 lg:max-h-7 max-w-[28px] sm:max-w-[34px] lg:max-w-[38px] object-contain drop-shadow-sm flex-shrink-0"
               />
               <div className="flex flex-col text-left leading-none">
                 <span className="text-[9px] sm:text-[11px] lg:text-[11.5px] font-black text-[#0B1E43] tracking-tight uppercase whitespace-nowrap">
@@ -1852,7 +1852,7 @@ export default function BimpEagaLandingPage() {
                   src="/assets/logo.jpeg"
                   onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
                   alt="United Nations Statistics Division (UNSD) Logo"
-                  className="h-5 sm:h-5.5 md:h-6 w-auto object-contain max-w-[130px] sm:max-w-[155px]"
+                  className="h-5 sm:h-6 w-auto object-contain max-w-[130px] sm:max-w-[155px] flex-shrink-0"
                 />
 
                 {/* Subtle Divider */}
@@ -1869,7 +1869,7 @@ export default function BimpEagaLandingPage() {
                   <img
                     src="/assets/LogoBPS.svg"
                     alt="BPS-Statistics Indonesia Logo"
-                    className="h-5 sm:h-5.5 md:h-6 w-auto object-contain"
+                    className="h-5 sm:h-6 w-auto max-h-5 sm:max-h-6 max-w-[28px] sm:max-w-[34px] object-contain flex-shrink-0"
                   />
                   <div className="flex flex-col text-left leading-none">
                     <span className="text-[9.5px] sm:text-[10px] md:text-[10.5px] font-black text-[#0B1E43] tracking-tight uppercase whitespace-nowrap">
@@ -1956,7 +1956,7 @@ export default function BimpEagaLandingPage() {
           </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
-            <p>&copy; 2026 UNSD Workshop on IMTS 2026 & MSITS 2026. Hosted by BPS-Statistics Indonesia & United Nations Statistics Division.</p>
+            <p>&copy; 2026 UNSD Workshop on IMTS 2026 & MSITS 2026. Hosted by Muhammad Hariz Mudrik</p>
             <p>Jakarta, Indonesia &bull; 7 – 11 December 2026</p>
           </div>
         </div>
