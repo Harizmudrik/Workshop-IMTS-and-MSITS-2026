@@ -372,8 +372,8 @@ export default function BimpEagaLandingPage() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           {/* Official Partnership Logos: UNSD & BPS-Statistics Indonesia */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            {/* UNSD Logo */}
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+            {/* UNSD Logo (Refined, proportional & airy) */}
             <a
               href="#overview"
               className="flex items-center hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-0.5"
@@ -383,12 +383,12 @@ export default function BimpEagaLandingPage() {
                 src="/assets/logo.jpeg"
                 onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
                 alt="United Nations Statistics Division (UNSD) Logo"
-                className="h-6 sm:h-7.5 w-auto object-contain max-w-[110px] sm:max-w-[145px]"
+                className="h-6 sm:h-7 lg:h-7.5 w-auto object-contain max-w-[140px] sm:max-w-[180px] lg:max-w-[210px]"
               />
             </a>
 
             {/* Subtle Divider */}
-            <div className="h-5 sm:h-6 w-px bg-slate-200" aria-hidden="true" />
+            <div className="h-5 sm:h-6 w-px bg-slate-200 mx-0.5" aria-hidden="true" />
 
             {/* BPS-Statistics Indonesia Logo & Label */}
             <a
@@ -401,14 +401,14 @@ export default function BimpEagaLandingPage() {
               <img
                 src="/assets/LogoBPS.svg"
                 alt="BPS-Statistics Indonesia Logo"
-                className="h-6 sm:h-7.5 w-auto object-contain drop-shadow-sm"
+                className="h-6 sm:h-7 lg:h-7.5 w-auto object-contain drop-shadow-sm"
               />
               <div className="flex flex-col text-left leading-none">
-                <span className="text-[10px] sm:text-[11.5px] font-black text-[#0B1E43] tracking-tight uppercase whitespace-nowrap">
+                <span className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-black text-[#0B1E43] tracking-tight uppercase whitespace-nowrap">
                   <span className="inline sm:hidden">BPS RI</span>
                   <span className="hidden sm:inline">BPS-Statistics Indonesia</span>
                 </span>
-                <span className="text-[7.5px] sm:text-[8px] font-bold text-orange-600 tracking-wider uppercase mt-0.5 whitespace-nowrap">
+                <span className="text-[7px] sm:text-[7.5px] lg:text-[8px] font-bold text-orange-600 tracking-wider uppercase mt-0.5 whitespace-nowrap">
                   Host Country
                 </span>
               </div>
@@ -1060,7 +1060,7 @@ export default function BimpEagaLandingPage() {
       <section id="hotels" className="py-12 lg:py-16 bg-slate-50 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-8">
             <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-3.5 py-1 rounded-full border border-orange-200">
               <Hotel className="w-3.5 h-3.5" /> Participant Accommodations
             </span>
@@ -1069,25 +1069,6 @@ export default function BimpEagaLandingPage() {
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl mx-auto">
               Suggested hotels as outlined in the official Information Note. Participants are kindly requested to make their own reservations.
-            </p>
-          </div>
-
-          {/* Reference Starting Point Banner */}
-          <div className="max-w-2xl mx-auto mb-8 p-3 sm:p-3.5 rounded-xl bg-orange-50/90 border border-orange-200/80 text-center shadow-sm">
-            <div className="flex items-center justify-center gap-1.5 text-orange-700">
-              <Compass className="w-3.5 h-3.5" />
-              <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
-                Reference Departure Point:
-              </span>
-            </div>
-            <p className="text-xs sm:text-sm font-bold text-[#0B1E43] mt-0.5">
-              UNDP Office, Menara Thamrin 9th Floor (Workshop Venue)
-            </p>
-            <p className="text-[11px] text-slate-600">
-              Jl. M.H. Thamrin Kav. 3, Kebon Sirih, Menteng, Jakarta Pusat 10250, Indonesia
-            </p>
-            <p className="text-[10px] text-slate-500 italic mt-0.5">
-              All walking and driving distance estimates are calculated from this reference venue.
             </p>
           </div>
 
@@ -1861,34 +1842,37 @@ export default function BimpEagaLandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-white/[0.08]">
             <div className="md:col-span-5 space-y-3">
-              {/* Joint Organizers Logos: UNSD + BPS-Statistics Indonesia */}
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <div className="bg-white/95 p-1.5 rounded-lg flex items-center shadow-sm">
-                  <img
-                    src="/assets/logo.jpeg"
-                    onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
-                    alt="United Nations Statistics Division (UNSD) Logo"
-                    className="h-8 sm:h-9 w-auto object-contain max-w-[160px]"
-                  />
-                </div>
-                <div className="h-6 w-px bg-white/20 hidden sm:block" aria-hidden="true" />
+              {/* Joint Organizers Partnership Badge (Compact & Single-Row) */}
+              <div className="inline-flex items-center gap-2 sm:gap-2.5 px-3 py-1.5 rounded-xl bg-white/95 border border-white/20 shadow-sm max-w-full">
+                {/* UNSD Logo */}
+                <img
+                  src="/assets/logo.jpeg"
+                  onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
+                  alt="United Nations Statistics Division (UNSD) Logo"
+                  className="h-5 sm:h-5.5 md:h-6 w-auto object-contain max-w-[130px] sm:max-w-[155px]"
+                />
+
+                {/* Subtle Divider */}
+                <div className="h-4 sm:h-5 w-px bg-slate-300" aria-hidden="true" />
+
+                {/* BPS Logo + Label */}
                 <a
                   href="https://www.bps.go.id"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white/95 p-1.5 rounded-lg flex items-center gap-1.5 px-2.5 shadow-sm hover:bg-white transition-colors"
+                  className="flex items-center gap-1.5 hover:opacity-85 transition-opacity"
                   title="BPS-Statistics Indonesia"
                 >
                   <img
                     src="/assets/LogoBPS.svg"
                     alt="BPS-Statistics Indonesia Logo"
-                    className="h-7 sm:h-8 w-auto object-contain"
+                    className="h-5 sm:h-5.5 md:h-6 w-auto object-contain"
                   />
                   <div className="flex flex-col text-left leading-none">
-                    <span className="text-[11px] font-black text-[#0B1E43] tracking-wider uppercase">
+                    <span className="text-[9.5px] sm:text-[10px] md:text-[10.5px] font-black text-[#0B1E43] tracking-tight uppercase whitespace-nowrap">
                       BPS-Statistics Indonesia
                     </span>
-                    <span className="text-[8px] font-bold text-orange-600 uppercase tracking-widest mt-0.5">
+                    <span className="text-[6.5px] sm:text-[7px] md:text-[7.5px] font-bold text-orange-600 uppercase tracking-wider mt-0.5 whitespace-nowrap">
                       Host Country
                     </span>
                   </div>
