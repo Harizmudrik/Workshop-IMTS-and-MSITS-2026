@@ -381,6 +381,8 @@ export default function BimpEagaLandingPage() {
             >
               <img
                 src="/assets/logo.jpeg"
+                width="210"
+                height="42"
                 onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
                 alt="United Nations Statistics Division (UNSD) Logo"
                 className="h-5 sm:h-6 lg:h-7 w-auto object-contain max-w-[105px] xs:max-w-[125px] sm:max-w-[175px] lg:max-w-[210px] flex-shrink-0"
@@ -400,6 +402,8 @@ export default function BimpEagaLandingPage() {
             >
               <img
                 src="/assets/LogoBPS.svg"
+                width="34"
+                height="26"
                 alt="BPS-Statistics Indonesia Logo"
                 className="h-5 sm:h-6 lg:h-7 w-auto max-h-5 sm:max-h-6 lg:max-h-7 max-w-[28px] sm:max-w-[34px] lg:max-w-[38px] object-contain drop-shadow-sm flex-shrink-0"
               />
@@ -780,25 +784,25 @@ export default function BimpEagaLandingPage() {
 
             {/* Right Column: Host Committee Card (Clean, Non-Duplicated) */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-[360px] lg:max-w-[380px]">
+              <div className="relative w-full max-w-[330px] sm:max-w-[350px] lg:max-w-[360px]">
                 {/* Ambient Glow */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-500/20 via-sky-500/15 to-blue-600/20 blur-2xl scale-105 pointer-events-none" />
 
                 <div className="relative bg-white/[0.08] backdrop-blur-2xl border border-white/[0.15] rounded-3xl p-5 shadow-2xl text-center space-y-3.5">
                   {/* Framed Portrait Box */}
-                  <div className="relative rounded-2xl bg-gradient-to-b from-sky-900/30 via-slate-900/40 to-slate-950/70 border border-white/10 overflow-hidden pt-3 px-2 pb-0 shadow-inner group">
+                  <div className="relative rounded-2xl bg-gradient-to-b from-sky-900/35 via-slate-900/45 to-slate-950/80 border border-white/10 overflow-hidden pt-9 sm:pt-10 px-3 pb-0 shadow-inner group">
                     {/* Top indicator */}
                     <div className="absolute top-2.5 inset-x-0 flex justify-center z-10 pointer-events-none">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/15 text-[10px] font-bold text-orange-300 uppercase tracking-wider shadow-sm">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/15 text-[10px] font-bold text-orange-300 uppercase tracking-wider shadow-sm">
                         <Users className="w-3 h-3 text-orange-400" /> Official Host Committee
                       </span>
                     </div>
 
-                    <div className="flex items-end justify-center pt-4">
+                    <div className="flex items-end justify-center">
                       <img
-                        src="/assets/salamBPS.png"
+                        src="/assets/SalamBaru.png"
                         alt="Official Host & Committee - BPS-Statistics Indonesia"
-                        className="w-full max-h-56 sm:max-h-64 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)] group-hover:scale-[1.02] transition-transform duration-300"
+                        className="w-auto max-h-[185px] xs:max-h-[200px] sm:max-h-[215px] lg:max-h-[230px] object-contain mx-auto drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] group-hover:scale-[1.02] transition-transform duration-300"
                       />
                     </div>
                   </div>
@@ -1850,6 +1854,8 @@ export default function BimpEagaLandingPage() {
                 {/* UNSD Logo */}
                 <img
                   src="/assets/logo.jpeg"
+                  width="155"
+                  height="32"
                   onError={(e) => { e.currentTarget.src = "/assets/logo.jpeg"; }}
                   alt="United Nations Statistics Division (UNSD) Logo"
                   className="h-5 sm:h-6 w-auto object-contain max-w-[130px] sm:max-w-[155px] flex-shrink-0"
@@ -1868,6 +1874,8 @@ export default function BimpEagaLandingPage() {
                 >
                   <img
                     src="/assets/LogoBPS.svg"
+                    width="34"
+                    height="26"
                     alt="BPS-Statistics Indonesia Logo"
                     className="h-5 sm:h-6 w-auto max-h-5 sm:max-h-6 max-w-[28px] sm:max-w-[34px] object-contain flex-shrink-0"
                   />
@@ -1956,7 +1964,7 @@ export default function BimpEagaLandingPage() {
           </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
-            <p>&copy; 2026 UNSD Workshop on IMTS 2026 & MSITS 2026. Hosted by Muhammad Hariz Mudrik</p>
+            <p>&copy; 2026 UNSD Workshop on IMTS 2026 & MSITS 2026. MuhammadHarizMudrik</p>
             <p>Jakarta, Indonesia &bull; 7 – 11 December 2026</p>
           </div>
         </div>
